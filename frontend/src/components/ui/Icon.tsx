@@ -59,6 +59,19 @@ const drawings = {
     </>
   ),
   menu: <path d="M3 6h18M3 12h18M3 18h18" />,
+  clock: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </>
+  ),
+  check: <path d="m5 12 4 4L19 6" />,
+  search: (
+    <>
+      <circle cx="10.5" cy="10.5" r="5.5" />
+      <path d="m15 15 4.5 4.5" />
+    </>
+  ),
   close: <path d="m6 6 12 12M18 6 6 18" />,
   pause: (
     <>

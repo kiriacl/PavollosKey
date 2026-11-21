@@ -752,6 +752,11 @@ body:has(.menu-dialog[open]) {
     gap: 0.4rem;
   }
 }
+@media (max-width: 27rem) {
+  .panel-header-overview .panel-breadcrumb > span {
+    display: none;
+  }
+}
 @media (max-width: 24rem) {
   .container {
     width: calc(100% - 2rem);
@@ -783,6 +788,10 @@ body:has(.menu-dialog[open]) {
 @media (max-width: 21.5rem) {
   .hero-actions {
     grid-template-columns: 1fr;
+  }
+  .panel-header .demo-label {
+    white-space: normal;
+    text-align: center;
   }
 }
 @media (max-width: 19rem) {

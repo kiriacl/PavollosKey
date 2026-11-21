@@ -5,6 +5,7 @@ export const usingMocks = configuredBase === ''
 
 export const apiRoutes = {
   panelContext: '/painel/contexto',
+  dashboard: '/painel/dashboard',
 } as const
 
 export async function getJson(path: string, signal: AbortSignal): Promise<unknown> {

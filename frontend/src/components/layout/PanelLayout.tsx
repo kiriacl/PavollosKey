@@ -34,6 +34,7 @@ function HomeLink() {
 }
 
 export function PanelLayout({ current, children }: { current?: ModuleId; children: ReactNode }) {
+  const dataLabel = current ? 'Dados fictícios' : 'Dados de demonstração'
   return (
     <div className="panel-shell">
       <aside className="sidebar">
@@ -43,7 +44,7 @@ export function PanelLayout({ current, children }: { current?: ModuleId; childre
         <HomeLink />
       </aside>
       <div className="panel-workspace">
-        <header className="panel-header">
+        <header className={current ? 'panel-header' : 'panel-header panel-header-overview'}>
           <div className="panel-breadcrumb">
             <MobileMenu title="Área de trabalho">
               <PanelNavigation current={current} />
@@ -53,7 +54,7 @@ export function PanelLayout({ current, children }: { current?: ModuleId; childre
             <span aria-hidden="true">/</span>
             <strong>{current ? modules[current].title : 'Visão geral'}</strong>
           </div>
-          <StatusLabel>{usingMocks ? 'Dados fictícios' : 'Prévia com API'}</StatusLabel>
+          <StatusLabel>{usingMocks ? dataLabel : 'Prévia com API'}</StatusLabel>
         </header>
         <main id="conteudo" className="panel-main" tabIndex={-1}>
           {children}
