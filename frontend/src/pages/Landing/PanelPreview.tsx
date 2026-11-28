@@ -22,6 +22,8 @@ const statusLabels: Record<RequestStatus, string> = {
 }
 const clients = new Map(demoClients.map(({ id, nome }) => [id, nome]))
 const recent = demoRequests.slice(0, 3)
+const open = demoRequests.filter(({ status }) => status === 'pendente')
+const running = demoDashboard.servicos.filter(({ status }) => status === 'em_andamento').length
 const monthFormat = new Intl.DateTimeFormat('pt-BR', { month: 'short', timeZone: 'UTC' })
 const latestMonth = new Date(recent[0].dataSolicitacao.slice(0, 7) + '-01T00:00:00Z')
 const months = Array.from({ length: 6 }, (_, index) => {
@@ -35,13 +37,13 @@ function Status({ status }: { status: RequestStatus }) {
   return <span className="demo-status" data-status={status}>{statusLabels[status]}</span>
 }
 
-function Overview({ compact = false }: { compact?: boolean }) {
+function Overview() {
   return (
     <>
       <dl className="demo-stats">
         <div><dt>Solicitações</dt><dd>{demoRequests.length}</dd></div>
-        <div><dt>Pendentes</dt><dd>{demoRequests.filter(({ status }) => status === 'pendente').length}</dd></div>
-        <div><dt>Serviços em andamento</dt><dd>{demoDashboard.servicos.filter(({ status }) => status === 'em_andamento').length}</dd></div>
+        <div><dt>Pendentes</dt><dd>{open.length}</dd></div>
+        <div><dt>Serviços em andamento</dt><dd>{running}</dd></div>
       </dl>
       <section className="demo-activity" aria-label="Evolução das solicitações">
         <div className="demo-activity-title"><strong>Solicitações por mês</strong><span>Últimos seis meses da amostra</span></div>
@@ -56,7 +58,7 @@ function Overview({ compact = false }: { compact?: boolean }) {
       </section>
       <div className="demo-list-title">Solicitações recentes</div>
       <ul className="demo-rows">
-        {(compact ? recent.slice(0, 2) : recent).map((request) => (
+        {recent.map((request) => (
           <li key={request.id}>
             <div><strong>{request.tipoServico}</strong><span>{clients.get(request.clienteId)}</span></div>
             <Status status={request.status} />
@@ -77,7 +79,22 @@ export function HeroPanel() {
         <div className="product-rail" aria-hidden="true">
           {tabs.map(({ id, icon }, index) => <span key={id} data-selected={index === 0}><Icon name={icon} size={17} /></span>)}
         </div>
-        <div className="product-overview"><p className="product-heading">Visão geral</p><Overview compact /></div>
+        <div className="product-overview hero-operations">
+          <p className="product-heading">O que pede atenção</p>
+          <dl className="demo-stats hero-operations-stats">
+            <div><dt>Atendimentos em aberto</dt><dd>{open.length}</dd></div>
+            <div><dt>Serviços em execução</dt><dd>{running}</dd></div>
+          </dl>
+          <p className="demo-list-title">Fila de atendimento</p>
+          <ul className="demo-rows">
+            {open.slice(0, 2).map((request) => (
+              <li key={request.id}>
+                <div><strong>{request.tipoServico}</strong><span>{clients.get(request.clienteId)}</span></div>
+                <Status status={request.status} />
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   )

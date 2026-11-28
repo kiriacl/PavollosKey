@@ -40,7 +40,7 @@ Em produção, sirva `frontend/dist` com HTTPS e encaminhe `/api/*` ao Next.js n
 | Tela | Comportamento |
 | --- | --- |
 | Acesso | Login, recuperação do perfil ao recarregar, expiração de sessão e logout. |
-| Dashboard | Atalhos da API. Indicadores, gráficos e lista calculados com atendimentos, clientes e ordens retornados pela API. Técnico acompanha suas ordens. Visitas aparecem sem dados da API. |
+| Central de operações | Fila de atendimentos em aberto, ações rápidas, ordens que aguardam andamento, amostra de orçamentos enviados e gráficos de solicitações. Técnico acompanha as próprias ordens. |
 | Clientes | Lista, pesquisa, cadastro, consulta, edição e lista de atendimentos por cliente. A API grava nome, telefone e e-mail. |
 | Solicitações | Lista, filtros, cadastro e consulta de atendimentos, histórico e encerramento ou cancelamento conforme o perfil. A criação registra cliente, canal e descrição. |
 | Orçamentos | Cotação inicial ou complementar, versões, itens, total do banco, envio, aprovação, recusa, expiração e geração de ordem por item aprovado. O envio registra a mudança de estado. |
@@ -78,7 +78,26 @@ A autorização é aplicada pelo servidor e pelas funções PostgreSQL. As telas
 | Marca e capturas | `src/assets/pk-mark.svg`, `src/components/ui/Brand.tsx`, `src/components/ui/Icon.tsx`, `index.html` e `public/demo-{desktop,mobile}.webp`. |
 | Limpeza do 3D | Manifesto e lockfile da raiz, `vite.config.ts`, componentes da cena, tipagem JSX, detecção de WebGL e poster. A versão com a chave está preservada no commit `5724f47`. |
 
-**Verificação.** Build, lint, os 11 testes de validação e PostgreSQL e a suíte HTTP passaram. No Edge, a landing foi verificada em 360, 390, 768, 1024, 1440 e 1920 px. A checagem cobriu rolagem nativa, avanço manual e automático na jornada, teclado, menu móvel, temas, movimento reduzido, imagens e links para o painel. O axe não apontou violações nas três vistas avaliadas. Com o build servido na mesma origem que a API local de teste, foram conferidos login, cookie HttpOnly, restrição de técnico e logout. O pacote 3D opcional, de cerca de 266 kB com gzip na versão anterior, saiu do build. As duas capturas WebP somam aproximadamente 101 kB e carregam sob demanda.
+**Verificação.** Build, lint, os 11 testes de validação e PostgreSQL e a suíte HTTP passaram. No Edge, a landing foi verificada em 360, 390, 768, 1024, 1440 e 1920 px. A checagem cobriu rolagem nativa, avanço manual e automático na jornada, teclado, menu móvel, temas, movimento reduzido, imagens e links para o painel. O pacote 3D opcional, de cerca de 266 kB com gzip na versão anterior, saiu do build.
+
+### Central de operações — fase 2
+
+**Diagnóstico.** Na auditoria das nove telas no Edge, o painel anterior cabia em 390 px e usava uma navegação linear. Cinco cartões com peso parecido competiam por atenção. O proprietário precisava sair da visão geral para abrir os formulários, e o técnico via contagens sem uma fila que levasse à ordem. A paleta azul separava visualmente o painel da landing.
+
+**Decisões e entregas.** Os dois ambientes compartilham os tokens off-white, floresta e verde-limão. O limão marca a ação principal, a seleção e o primeiro indicador do resumo. Conferir pendências, agir e avaliar o desempenho são seções sucessivas. A barra lateral recolhe, os módulos têm agrupamento e a barra inferior aproxima as rotas frequentes no celular. O cabeçalho identifica o estabelecimento, oferece o tema e agrupa as opções da sessão em um menu de perfil. Ctrl ou Cmd + K abre a busca de páginas e ações. A busca aceita texto sem acentos, setas, Enter e Escape.
+
+**Fluxos e dados.** Os atalhos de cadastro abrem os formulários existentes. As linhas de atendimento, orçamento e ordem levam ao respectivo registro. O quadro de orçamentos mostra até quatro versões enviadas, consultando até duas cotações por atendimento entre os cinco atendimentos abertos mais recentes. A página de orçamentos continua disponível para consultar outros registros. O técnico vê as ordens retornadas para a própria sessão e usa os controles de execução já existentes. Na demonstração, a abertura residencial de Mariana aparece na fila de atendimentos. O detalhe de ordens e orçamentos é identificado como dependente da API. A landing traz no hero um recorte da fila e mantém os gráficos e as seis abas na seção do produto. As capturas WebP atualizadas somam cerca de 128 kB, com carregamento sob demanda.
+
+| Área | Arquivos |
+| --- | --- |
+| Central e dados | `src/pages/Painel/{OperationsOverview.tsx,workbench.css,PanelPages.tsx,dashboard.css}`, `src/hooks/useDashboard.ts`, `src/services/dashboard.ts` e `src/types/dashboard.ts`. Os componentes duplicados de cartões e indicadores deram lugar ao resumo e à fila. |
+| Navegação e sessão | `src/components/layout/{PanelLayout.tsx,panel-layout.css,CommandPalette.tsx}`, `src/routes/{panelNavigation.ts,routes.ts}` e `src/App.tsx`. |
+| Atalhos para fluxos existentes | `src/pages/Clientes/ClientsPage.tsx`, `src/pages/Solicitacoes/RequestsPage.tsx` e `src/pages/Painel/{BudgetsPage,OrdersPage}.tsx`. |
+| Tema e apresentação | `src/{design-system.css,index.css,App.css,theme.ts}`, `index.html`, `src/pages/Landing/{PanelPreview.tsx,landing.css}` e `public/demo-{desktop,mobile}.webp`. |
+
+**Verificação.** Build e lint dos dois projetos, os 11 testes de validação e PostgreSQL e a suíte HTTP passaram. No Edge, o painel foi exercitado de 360 a 1920 px, com os oito módulos verificados a 390 px. Foram conferidos os dois temas, o cadastro pela busca, os atalhos, a continuidade de Mariana e as oito etapas da landing. O axe não apontou violações nas seis vistas avaliadas. Com a API local de teste, foram verificados carregamento, erro, nova tentativa e ausência de dados. O proprietário criou cliente e solicitação e abriu orçamento e ordem pelos links da Central. O técnico iniciou a ordem no celular, teve a permissão comercial recusada pela API e voltou ao painel com o estado atualizado.
+
+**Pendências.** A homologação no Supabase remoto depende da configuração do ambiente. O redesenho aprofundado de cada módulo fica para as etapas próprias.
 
 ### Etapas anteriores
 
