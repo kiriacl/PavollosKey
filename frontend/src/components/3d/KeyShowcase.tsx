@@ -27,6 +27,7 @@ function Poster() {
       alt=""
       width="840"
       height="560"
+      decoding="async"
     />
   )
 }
@@ -78,15 +79,12 @@ export function KeyShowcase() {
   return (
     <figure
       className="key-stage"
+      data-surface="night"
       ref={container}
       aria-label={`Chave do ${productName} com lâmina metálica e cabeça azul com o monograma PK`}
     >
       <div className="stage-grid" aria-hidden="true" />
-      <div className="stage-dial" aria-hidden="true">
-        <i />
-        <i />
-        <i />
-      </div>
+      <div className="stage-dial" aria-hidden="true" />
       <span className="registration mark-nw" aria-hidden="true" />
       <span className="registration mark-ne" aria-hidden="true" />
       <span className="registration mark-sw" aria-hidden="true" />

@@ -65,6 +65,26 @@ A autorização é aplicada pelo servidor e pelas funções PostgreSQL. As telas
 
 **Dados.** A visão geral usa `useDashboard` para os dados administrativos e `usePanelContext` para os atalhos. O módulo de Clientes usa `useClients` para a lista, a pesquisa e a paginação. As consultas reutilizam o carregamento, o cancelamento e a nova tentativa de `useAsyncData`. Os serviços escolhem a amostra ou a API REST conforme a configuração de ambiente. O estabelecimento “Chaveiro Horizonte” e os registros da amostra são fictícios.
 
+### Redesign premium — fases 1 a 3
+
+A auditoria no Edge cobriu a landing page, o Dashboard, os oito módulos e a tela de sessão. A apresentação anterior dava o mesmo peso aos três cartões e descrevia como previstos alguns recursos já integrados. No painel, cores de bordas, campos e feedback se repetiam em folhas de estilo diferentes. Dashboard e módulos que dependem da API ainda precisam de um trabalho próprio de composição e navegação.
+
+- **Identidade.** Grafite e branco gelo dão base à interface. O azul orienta as ações, e a chave ocupa uma bancada de inspeção escura com retícula discreta. Space Grotesk organiza os títulos e Inter organiza os textos e controles. As duas fontes variáveis são servidas localmente. [Space Grotesk](https://github.com/google/fonts/tree/main/ofl/spacegrotesk) · [Inter](https://github.com/google/fonts/tree/main/ofl/inter)
+- **Design System.** `src/design-system.css` define superfícies, texto, bordas, foco, ação, espaçamento, raios, elevação e cores semânticas. O tema inicial segue o sistema e a escolha é salva no navegador. `ThemeToggle` está na landing, na sessão e no painel. A base foi aplicada a botões, campos, tabelas, diálogo de registro, menu lateral móvel, indicadores de status e mensagens. `DataState` oferece skeleton, nova tentativa e estado vazio.
+- **Landing page.** O hero assimétrico abre a narrativa do atendimento à entrega. A grade dá destaque a Clientes e Solicitações, distingue os módulos disponíveis via API e identifica Visitas e Estoque como planejados. A prévia usa os dados de demonstração já existentes e três abas operáveis por teclado. Os títulos, links, estados e controles preservam foco visível e respeitam a preferência de movimento reduzido. [WCAG 2.2](https://www.w3.org/TR/WCAG22/)
+- **Chave 3D.** A iluminação usa reflexos mais definidos e um metal com rugosidade ajustada. A rotação responde de forma amortecida ao cursor e mantém pausa, retomada, carregamento sob demanda e a imagem WebP quando a renderização está indisponível.
+
+| Área | Arquivos principais |
+| --- | --- |
+| Tokens, tipografia e temas | `src/design-system.css`, `src/index.css`, `src/theme.ts`, `src/main.tsx`, `src/components/ui/ThemeToggle.tsx`, `public/fonts/` e `index.html`. |
+| Apresentação pública | `src/pages/Landing/{LandingPage,PanelPreview}.tsx`, `src/pages/Landing/landing.css`, `src/components/layout/LandingHeader.tsx` e `src/routes/routes.ts`. |
+| Cena | `src/components/3d/{KeyShowcase,KeyScene}.tsx`. |
+| Aplicação dos padrões | `src/App.css`, layouts de painel, sessão e menu móvel, `src/components/ui/{DataState,Icon}.tsx`, `src/components/ui/modal.css`, estilos e feedback de Clientes, Solicitações e Painel. |
+
+**Verificação.** Build e lint do front-end passaram. Os 11 testes de validação e PostgreSQL e a suíte HTTP passaram. O build integrado foi exercitado no Edge com dados sintéticos, sessão em cookie, cadastro confirmado por consulta SQL e restrição de técnico validada pela API. A landing e as nove telas do painel foram verificadas de 360 a 1920 px. O axe não apontou violações nas quatro vistas verificadas. O teste WebGL cobriu pausa, retomada, perda de contexto e movimento reduzido. O build ainda sinaliza o tamanho do arquivo 3D, de aproximadamente 266 kB com gzip, carregado sob demanda.
+
+As próximas fases abrangem a estrutura do painel e a navegação, o Dashboard operacional, o redesenho dos módulos, a experiência de login e as validações finais. A homologação do Supabase depende das informações do ambiente remoto.
+
 ### Etapas anteriores
 
 - Etapas 1 e 2. Landing page, cena 3D e navegação dos módulos. Os testes anteriores no Chrome cobriram navegação por teclado, menu móvel, pausa, movimento reduzido e perda de WebGL.

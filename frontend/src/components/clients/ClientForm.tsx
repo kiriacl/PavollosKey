@@ -183,7 +183,7 @@ export function ClientForm({ client, saving, onSaving, onSaved, onCancel }: Clie
         />
       </fieldset>}
 
-      {message && <p ref={summaryRef} tabIndex={-1} role="alert" className="client-error-summary">{message}</p>}
+      {message && <p ref={summaryRef} tabIndex={-1} role="alert" className="form-error">{message}</p>}
       <p className="sr-only" role="status">{saving ? 'Salvando cadastro…' : ''}</p>
       <div className="client-dialog-actions">
         <button type="button" className="button clients-secondary" disabled={saving} onClick={onCancel}>Cancelar</button>

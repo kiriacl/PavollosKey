@@ -5,6 +5,7 @@ import { getProfile, login, logout, type Profile } from '../../services/auth'
 import { apiErrorMessage, HttpError, sessionExpired, usingMocks } from '../../services/http'
 import { Brand } from '../ui/Brand'
 import { DataState } from '../ui/DataState'
+import { ThemeToggle } from '../ui/ThemeToggle'
 
 export function PanelSession({ children }: { children: (profile: Profile | null, signOut?: () => Promise<void>) => ReactNode }) {
   return usingMocks ? children(null) : <LiveSession>{children}</LiveSession>
@@ -32,7 +33,7 @@ function LiveSession({ children }: { children: (profile: Profile, signOut: () =>
   return (
     <main id="conteudo" className="missing-page" tabIndex={-1}>
       <section className="scope-card session-card">
-        <Brand />
+        <div className="session-top"><Brand /><ThemeToggle /></div>
         <h1>Acesso ao painel</h1>
         {override === undefined && result.status === 'loading' ? (
           <DataState status="loading" message="Verificando a sessão…" />

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { panelHref, sections } from '../../routes/routes'
 import { Brand } from '../ui/Brand'
 import { Icon } from '../ui/Icon'
+import { ThemeToggle } from '../ui/ThemeToggle'
 import { MobileMenu } from './MobileMenu'
 
 export function LandingHeader() {
@@ -45,11 +46,10 @@ export function LandingHeader() {
         <Brand />
         <div className="desktop-links">{links}</div>
         <div className="header-actions">
-          <a href={panelHref()} className="button header-access" aria-label="Acessar sistema">
-            <Icon name="panel" size={17} />
-            <span>
-              Acessar<span className="access-detail"> sistema</span>
-            </span>
+          <ThemeToggle />
+          <a href={panelHref()} className="button button-secondary header-access" aria-label="Acessar painel">
+            <span>Painel</span>
+            <Icon name="diagonal" size={15} />
           </a>
           <MobileMenu title="Navegação">{links}</MobileMenu>
         </div>

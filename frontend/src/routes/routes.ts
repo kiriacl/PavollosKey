@@ -40,16 +40,16 @@ export const modules: Record<ModuleId, ModuleInfo> = {
     icon: 'quote',
     description: 'Valores apresentados e aprovações.',
     scope: [
-      'Consultar orçamentos',
-      'Exibir serviço, deslocamento e total recebidos da API',
-      'Acompanhar a aprovação',
+      'Criar cotações e versões de orçamento',
+      'Incluir itens e consultar o total calculado',
+      'Registrar a decisão do cliente',
     ],
   },
   servicos: {
     title: 'Serviços',
     icon: 'tools',
     description: 'Acompanhamento dos trabalhos da oficina.',
-    scope: ['Consultar atendimentos', 'Acompanhar serviços em andamento', 'Registrar a conclusão'],
+    scope: ['Consultar ordens de serviço', 'Atribuir e acompanhar a execução', 'Registrar observações e conclusão'],
   },
   estoque: {
     title: 'Estoque',
@@ -65,13 +65,13 @@ export const modules: Record<ModuleId, ModuleInfo> = {
     title: 'Histórico',
     icon: 'history',
     description: 'Consulta de atendimentos anteriores.',
-    scope: ['Consultar solicitações anteriores', 'Revisitar os serviços realizados'],
+    scope: ['Consultar os eventos de um atendimento', 'Consultar as mudanças de uma ordem de serviço'],
   },
   configuracoes: {
     title: 'Configurações',
     icon: 'settings',
     description: 'Dados e preferências do estabelecimento.',
-    scope: ['Consultar os dados do estabelecimento', 'Ajustar preferências conforme as permissões aprovadas'],
+    scope: ['Consultar o estabelecimento e o perfil', 'Vincular colaboradores com o perfil de proprietário'],
   },
 }
 
@@ -81,7 +81,7 @@ export const requestHref = (id: string) => `${panelHref('solicitacoes')}/${encod
 export const sections = [
   { id: 'inicio', label: 'Início' },
   { id: 'funcionalidades', label: 'Funcionalidades' },
-  { id: 'projeto', label: 'Sobre a plataforma' },
+  { id: 'projeto', label: 'Prévia do painel' },
 ] as const
 
 type Route =

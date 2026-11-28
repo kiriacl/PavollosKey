@@ -99,7 +99,7 @@ function PanelShortcuts() {
         />
       )}
       {result.status === 'ready' && (result.data.atalhos.length === 0 ? (
-        <p className="state-box">Nenhum atalho disponível. Use o menu para acessar os módulos.</p>
+        <DataState status="empty" message="Nenhum atalho disponível. Use o menu para acessar os módulos." />
       ) : (
         <div className="shortcut-grid">
           {result.data.atalhos.map((id) => (
@@ -122,6 +122,7 @@ export function ModulePage({ id, requestId }: { id: ModuleId; requestId?: string
   if (id === 'solicitacoes') return <RequestsPage requestId={requestId} />
 
   const info = modules[id]
+  const waitingForApi = id === 'visitas' || id === 'estoque'
   const livePage = !usingMocks && {
     orcamentos: <BudgetsPage />,
     servicos: <OrdersPage />,
@@ -145,12 +146,12 @@ export function ModulePage({ id, requestId }: { id: ModuleId; requestId?: string
           <span className="icon-tile">
             <Icon name={info.icon} size={25} />
           </span>
-          <StatusLabel proposal>{usingMocks ? 'Proposta' : 'Aguardando API'}</StatusLabel>
+          <StatusLabel proposal={waitingForApi}>{waitingForApi ? 'Aguardando API' : 'Disponível no modo API'}</StatusLabel>
         </div>
-        <h2 id="escopo-titulo">Escopo previsto</h2>
-        <p>{usingMocks ? 'Funcionalidades em discussão para as próximas etapas.'
-          : id === 'visitas' ? 'A API ainda não disponibiliza agenda de visitas.'
-          : 'A API ainda não disponibiliza cadastro e movimentações de estoque.'}</p>
+        <h2 id="escopo-titulo">{waitingForApi ? 'Escopo previsto' : 'O que você pode fazer com a API'}</h2>
+        <p>{id === 'visitas' ? 'A API ainda não disponibiliza agenda de visitas.'
+          : id === 'estoque' ? 'A API ainda não disponibiliza cadastro e movimentações de estoque.'
+          : 'Acesse este módulo com uma sessão autenticada no modo API.'}</p>
         <ul>
           {info.scope.map((item) => (
             <li key={item}>{item}</li>

@@ -1,25 +1,25 @@
 .request-pendente {
-  --request-color: #a16b12;
-  --request-ink: #704608;
-  --request-tint: #fff2d9;
+  --request-color: var(--warning-mark);
+  --request-ink: var(--warning);
+  --request-tint: var(--warning-bg);
 }
 
 .request-em_atendimento {
-  --request-color: #3569dc;
-  --request-ink: #1f469b;
-  --request-tint: #e9f0ff;
+  --request-color: var(--chart-accent);
+  --request-ink: var(--accent);
+  --request-tint: var(--accent-subtle);
 }
 
 .request-resolvida {
-  --request-color: #248267;
-  --request-ink: #185a46;
-  --request-tint: #e1f4ec;
+  --request-color: var(--success-mark);
+  --request-ink: var(--success);
+  --request-tint: var(--success-bg);
 }
 
 .request-cancelada {
-  --request-color: #64748b;
-  --request-ink: #435268;
-  --request-tint: #edf1f6;
+  --request-color: var(--neutral-mark);
+  --request-ink: var(--neutral);
+  --request-tint: var(--neutral-bg);
 }
 
 .request-pill {
@@ -27,7 +27,7 @@
   align-items: center;
   gap: 0.4rem;
   padding: 0.22rem 0.55rem;
-  border-radius: 2rem;
+  border-radius: var(--radius-pill);
   background: var(--request-tint);
   color: var(--request-ink);
   font-size: 0.77rem;

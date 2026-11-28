@@ -6,6 +6,7 @@ import { moduleIds, type ModuleId } from '../../types/panel'
 import { Brand } from '../ui/Brand'
 import { Icon } from '../ui/Icon'
 import { StatusLabel } from '../ui/StatusLabel'
+import { ThemeToggle } from '../ui/ThemeToggle'
 import { MobileMenu } from './MobileMenu'
 
 const technicalModules: ModuleId[] = ['servicos', 'historico', 'configuracoes']
@@ -55,7 +56,7 @@ export function PanelLayout({ current, children, profile, onSignOut }: {
   }
   return (
     <div className="panel-shell">
-      <aside className="sidebar">
+      <aside className="sidebar" data-surface="night">
         <Brand />
         <p className="nav-heading">Área de trabalho</p>
         <PanelNavigation current={current} available={available} />
@@ -72,14 +73,17 @@ export function PanelLayout({ current, children, profile, onSignOut }: {
             <span aria-hidden="true">/</span>
             <strong>{current ? modules[current].title : 'Visão geral'}</strong>
           </div>
-          {profile ? (
-            <div className="panel-session-actions">
-              <span>{profile.nome} · {roleLabels[profile.papel]}</span>
-              <button type="button" className="text-link" onClick={signOut} disabled={logoutPending}>
-                {logoutPending ? 'Saindo…' : 'Sair'}
-              </button>
-            </div>
-          ) : <StatusLabel>Dados de demonstração</StatusLabel>}
+          <div className="panel-header-actions">
+            {profile ? (
+              <div className="panel-session-actions">
+                <span>{profile.nome} · {roleLabels[profile.papel]}</span>
+                <button type="button" className="text-link" onClick={signOut} disabled={logoutPending}>
+                  {logoutPending ? 'Saindo…' : 'Sair'}
+                </button>
+              </div>
+            ) : <StatusLabel>Dados de demonstração</StatusLabel>}
+            <ThemeToggle />
+          </div>
         </header>
         <main id="conteudo" className="panel-main" tabIndex={-1}>
           {logoutError && <p className="state-box" role="alert">{logoutError}</p>}

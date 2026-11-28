@@ -77,7 +77,7 @@ export function RequestsPage({ requestId }: { requestId?: string }) {
           <Icon name="plus" size={19} /> Nova solicitação
         </button>
       </div>
-      <p className={notice ? 'request-success' : 'sr-only'} role="status">{notice}</p>
+      <p className={notice ? 'form-notice' : 'sr-only'} role="status">{notice}</p>
       {list.result.status === 'loading' && <DataState status="loading" message="Carregando as solicitações e os clientes…" />}
       {list.result.status === 'error' && (
         <DataState status="error" message="Não foi possível carregar as solicitações ou os clientes. Confira a conexão."

@@ -125,7 +125,7 @@ export function RequestForm({ clients, request, saving, onSaving, onSaved, onCan
           </RequestField>
         </div>}
       </fieldset>
-      {problem && <p className="request-error-summary" tabIndex={-1} role="alert">{problem.message}</p>}
+      {problem && <p className="form-error" tabIndex={-1} role="alert">{problem.message}</p>}
       <p className="sr-only" role="status">{saving ? 'Salvando solicitação…' : ''}</p>
       <div className="request-dialog-actions">
         <button type="button" className="button request-secondary" disabled={saving} onClick={onCancel}>Cancelar</button>

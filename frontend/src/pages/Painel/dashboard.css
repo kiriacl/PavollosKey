@@ -15,10 +15,10 @@
 
 .dashboard-card {
   min-width: 0;
-  border: 1px solid #dce4ef;
-  border-radius: 0.85rem;
-  background: #fff;
-  box-shadow: 0 3px 10px #14223907;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-surface);
+  background: var(--surface);
+  box-shadow: var(--shadow-raised);
 }
 
 .dashboard-indicators {
@@ -42,18 +42,18 @@
 }
 
 .indicator-pending .icon-tile {
-  background: #fff1d6;
-  color: #815209;
+  background: var(--warning-bg);
+  color: var(--warning);
 }
 
 .indicator-scheduled .icon-tile {
-  background: #f1ebff;
-  color: #6343a7;
+  background: var(--accent-subtle);
+  color: var(--accent);
 }
 
 .indicator-completed .icon-tile {
-  background: #e0f4ed;
-  color: #1b6a53;
+  background: var(--success-bg);
+  color: var(--success);
 }
 
 .dashboard-indicator dt {
@@ -136,7 +136,7 @@
 }
 
 .status-chart-track {
-  background: #eaf0f8;
+  background: var(--surface-subtle);
 }
 
 .status-chart-track > div {
@@ -163,15 +163,15 @@
   justify-content: center;
   width: 100%;
   height: 5rem;
-  border-bottom: 1px solid #cdd9ed;
-  background: repeating-linear-gradient(to top, transparent 0 calc(25% - 1px), #edf2fa calc(25% - 1px) 25%);
+  border-bottom: 1px solid var(--border);
+  background: repeating-linear-gradient(to top, transparent 0 calc(25% - 1px), var(--border) calc(25% - 1px) 25%);
 }
 
 .trend-chart-bar {
   position: relative;
   width: min(52%, 2.25rem);
   border-radius: 0.32rem 0.32rem 0 0;
-  background: #3569dc;
+  background: var(--chart-accent);
 }
 
 .trend-chart-bar strong {
@@ -226,9 +226,9 @@
   width: 100%;
   min-height: 2.75rem;
   padding: 0.46rem 0.7rem;
-  border: 1px solid #8696ad;
-  border-radius: 0.46rem;
-  background: #fff;
+  border: 1px solid var(--field-border);
+  border-radius: var(--radius-control);
+  background: var(--surface);
   font-size: 1rem;
   font-weight: 500;
 }
@@ -254,15 +254,15 @@
 }
 
 .request-column-headings {
-  border-block: 1px solid #e4eaf3;
-  background: #f6f8fc;
-  color: #4b5a72;
+  border-block: 1px solid var(--border);
+  background: var(--surface-subtle);
+  color: var(--muted);
   font-size: 0.8rem;
   font-weight: 700;
 }
 
 .request-list li + li {
-  border-top: 1px solid #e6ecf5;
+  border-top: 1px solid var(--border);
 }
 
 .request-list dt {
@@ -289,7 +289,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  border-top: 1px solid #e4eaf3;
+  border-top: 1px solid var(--border);
   padding: 0.75rem clamp(0.9rem, 3cqi, 1.4rem);
 }
 
@@ -301,22 +301,22 @@
 .request-pagination button {
   min-height: 2.75rem;
   padding: 0.45rem 0.75rem;
-  border: 1px solid #a1b0c6;
-  border-radius: 0.46rem;
-  color: #2454bd;
+  border: 1px solid var(--field-border);
+  border-radius: var(--radius-control);
+  color: var(--accent);
   font-size: 0.88rem;
   font-weight: 700;
 }
 
 .request-pagination button:not([aria-disabled='true']):hover {
-  background: #eaf1ff;
-  border-color: #7190c6;
+  background: var(--accent-subtle);
+  border-color: var(--accent);
 }
 
 .request-pagination button[aria-disabled='true'] {
-  border-color: #dce4ef;
+  border-color: var(--border);
   color: var(--color-muted);
-  background: #f6f8fc;
+  background: var(--surface-subtle);
   cursor: default;
 }
 
@@ -338,7 +338,7 @@
   }
 
   .request-list {
-    border-top: 1px solid #e4eaf3;
+    border-top: 1px solid var(--border);
   }
 
   .request-list .request-columns {

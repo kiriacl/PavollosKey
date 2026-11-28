@@ -24,27 +24,27 @@ function Studio({ onLost }: { onLost: () => void }) {
   return (
     <>
       <Environment frames={1} resolution={64}>
-        <color attach="background" args={['#7e8c9c']} />
-        <Lightformer position={[-4, 4, 5]} target={[0, 0, 0]} scale={[6, 3, 1]} intensity={4.5} />
-        <Lightformer position={[-4, -4, 4]} target={[0, 0, 0]} scale={[7, 1.6, 1]} intensity={5} />
+        <color attach="background" args={['#475568']} />
+        <Lightformer position={[-4, 4, 5]} target={[0, 0, 0]} scale={[7, 2.4, 1]} intensity={5.5} />
+        <Lightformer position={[-4, -4, 4]} target={[0, 0, 0]} scale={[7, 0.9, 1]} intensity={3.4} />
         <Lightformer
           position={[3, 1, 4]}
           target={[0, 0, 0]}
           scale={[2, 7, 1]}
-          intensity={2.8}
+          intensity={3.9}
           color="#c0d7ff"
         />
         <Lightformer
           position={[1, -4, -2]}
           target={[0, 0, 0]}
           scale={[7, 1, 1]}
-          intensity={3}
+          intensity={1.6}
           color="#719af8"
         />
       </Environment>
       <directionalLight position={[-3, 5, 5]} intensity={2.1} color="#f3f8ff" />
-      <directionalLight position={[4, -2, 3]} intensity={2.4} color="#669aff" />
-      <directionalLight position={[-4, 0, -2]} intensity={2} color="#2595ff" />
+      <directionalLight position={[4, -2, 3]} intensity={1.4} color="#8bb5ff" />
+      <directionalLight position={[-4, 0, -2]} intensity={1.2} color="#477ab3" />
     </>
   )
 }
@@ -96,7 +96,7 @@ function Part({
   bevel,
   color,
   metalness = 0.88,
-  roughness = 0.25,
+  roughness = 0.29,
   position,
   finish,
 }: PartProps) {
@@ -127,13 +127,14 @@ function Key({ playing, onReady }: { playing: boolean; onReady: () => void }) {
     }
     if (!playing || !parallax.current) return
     const rotation = parallax.current.rotation
-    rotation.y = MathUtils.damp(rotation.y, pointer.x * 0.19, 4, delta)
-    rotation.x = MathUtils.damp(rotation.x, -pointer.y * 0.12, 4, delta)
+    const step = Math.min(delta, 1 / 30)
+    rotation.y = MathUtils.damp(rotation.y, MathUtils.clamp(pointer.x, -1, 1) * 0.16, 3.5, step)
+    rotation.x = MathUtils.damp(rotation.x, MathUtils.clamp(-pointer.y, -1, 1) * 0.11, 3.5, step)
   })
 
   return (
     <group ref={parallax} position={[0.13, 0.1, 0]} scale={Math.min(1, width / 5.8)}>
-      <Float enabled={playing} speed={1.35} rotationIntensity={0.32} floatingRange={[-0.042, 0.042]}>
+      <Float enabled={playing} speed={1.15} rotationIntensity={0.25} floatingRange={[-0.035, 0.035]}>
         <group rotation={[0.4, -0.37, 0.59]}>
           <Part
             shape={keyShapes.blade}
@@ -164,9 +165,9 @@ function Key({ playing, onReady }: { playing: boolean; onReady: () => void }) {
             position={[0, 0, 0.19]}
             depth={0.08}
             bevel={0.031}
-            color="#2461bf"
-            metalness={0.68}
-            roughness={0.28}
+            color="#265ca9"
+            metalness={0.73}
+            roughness={0.34}
             finish={finish}
           />
           <Part

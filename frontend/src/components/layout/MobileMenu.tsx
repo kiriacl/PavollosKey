@@ -36,6 +36,7 @@ export function MobileMenu({ title, children }: { title: string; children: React
         ref={dialog}
         id={id}
         className="menu-dialog"
+        data-surface="night"
         aria-labelledby={id + '-title'}
         onClose={() => setOpen(false)}
         onClick={(event) => {

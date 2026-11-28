@@ -63,7 +63,7 @@ export function ClientsPage() {
         </button>
       </div>
 
-      <p className={notice ? 'client-success' : 'sr-only'} role="status">{notice}</p>
+      <p className={notice ? 'form-notice' : 'sr-only'} role="status">{notice}</p>
 
       {clients.status === 'loading' && <DataState status="loading" message="Carregando os clientes…" />}
       {clients.status === 'error' && (

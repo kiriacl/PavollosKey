@@ -21,9 +21,9 @@
   width: 100%;
   min-width: 0;
   padding: .65rem .75rem;
-  border: 1px solid #a9b6c3;
+  border: 1px solid var(--border);
   border-radius: .5rem;
-  background: #fff;
+  background: var(--surface);
   color: var(--color-ink);
 }
 
@@ -50,7 +50,7 @@
 }
 
 .operation-list li {
-  border-bottom: 1px solid #a9b6c3;
+  border-bottom: 1px solid var(--border);
   padding-block: .6rem;
 }
 

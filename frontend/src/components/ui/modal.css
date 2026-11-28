@@ -1,7 +1,7 @@
 .record-dialog {
-  border: 1px solid #dce4ef;
-  border-radius: 0.85rem;
-  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-surface);
+  background: var(--surface-raised);
   color: var(--color-ink);
   width: min(44rem, calc(100% - 1.5rem));
   max-height: calc(100dvh - 1.5rem);
@@ -10,11 +10,11 @@
   overflow: auto;
   overscroll-behavior: contain;
   scroll-padding-top: 5rem;
-  box-shadow: 0 18px 64px #09122145;
+  box-shadow: var(--shadow-dialog);
 }
 
 .record-dialog::backdrop {
-  background: #091221a8;
+  background: var(--backdrop);
 }
 
 body:has(.record-dialog[open]) {
@@ -30,8 +30,8 @@ body:has(.record-dialog[open]) {
   justify-content: space-between;
   gap: 0.7rem;
   padding: 0.75rem clamp(0.9rem, 4vw, 1.5rem);
-  border-bottom: 1px solid #e4eaf3;
-  background: white;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-raised);
 }
 
 .record-dialog-header h2 {
@@ -43,8 +43,8 @@ body:has(.record-dialog[open]) {
 
 .record-dialog-header .icon-button {
   flex-shrink: 0;
-  border-color: #a1b0c6;
-  color: #284e9a;
+  border-color: var(--field-border);
+  color: var(--accent);
 }
 
 .record-dialog-body {

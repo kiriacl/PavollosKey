@@ -102,7 +102,7 @@ export function RequestDetails({ request, client, saving, onSaving, onStatusSave
             </select>
           )}
         </RequestField>
-        {problem && <p className="request-error-summary" tabIndex={-1} role="alert">{problem.message}</p>}
+        {problem && <p className="form-error" tabIndex={-1} role="alert">{problem.message}</p>}
         <p className="sr-only" role="status">{saving ? 'Salvando status…' : ''}</p>
         <div className="request-dialog-actions">
           <button type="button" className="button request-secondary" disabled={saving} onClick={onEdit}>Editar solicitação</button>
