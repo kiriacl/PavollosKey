@@ -1,6 +1,6 @@
 # Pávolloskeys — Front-end
 
-A interface usa React, TypeScript e Vite. A landing page apresenta a chave 3D e abre o painel em `/#/painel`. O painel integrado usa a API Next.js e mantém um modo de demonstração para trabalhar na interface sem credenciais.
+A interface usa React, TypeScript e Vite. A landing page conta a jornada de um atendimento e abre o painel em `/#/painel`. O painel integrado usa a API Next.js e oferece um modo de demonstração com dados fictícios.
 
 ## Executar localmente
 
@@ -57,33 +57,28 @@ A autorização é aplicada pelo servidor e pelas funções PostgreSQL. As telas
 
 **Navegação.** `src/App.tsx` lê o fragmento do endereço e usa a tabela em `src/routes/routes.ts` para escolher a tela. Links como `/#/painel/clientes` funcionam ao recarregar a página e com os controles de histórico do navegador. O menu, os atalhos e a página de cada módulo usam a mesma definição de título, ícone e escopo. No modo API, o painel verifica a sessão antes de carregar os módulos.
 
-**Interface.** A landing page tem navegação por seção, apresentação da chave e links para os módulos. O painel reutiliza a barra de navegação em um menu modal nas telas menores. Há link para pular ao conteúdo, indicação da página atual, foco no título ao navegar e fechamento do menu com Escape. Os componentes visuais e as páginas são funções React.
+**Interface.** A landing page tem navegação por capítulo, uma jornada acessível por controles manuais e uma prévia do produto com abas. O painel reutiliza a barra de navegação em um menu modal nas telas menores. Há link para pular ao conteúdo, indicação da página atual, foco no título ao navegar e fechamento do menu com Escape.
 
-**Cena 3D.** Os contornos da lâmina e da cabeça da chave são extrudados com Three.js. React Three Fiber exibe as peças. Drei fornece a flutuação e as luzes do estúdio. A cena responde ao ponteiro e permite pausar e retomar a animação. O código 3D fica em um arquivo carregado sob demanda quando a figura entra na área visível. A renderização contínua pausa fora da tela e em abas ocultas.
-
-**Alternativa estática.** Uma imagem WebP do mesmo modelo ocupa o espaço da cena durante o carregamento, com redução de movimento, economia de dados, até dois processadores lógicos, até 2 GB de memória informada ou WebGL 2 indisponível. Uma falha no módulo 3D ou a perda do contexto gráfico também ativa a imagem. A pequena classe `SceneBoundary` implementa a barreira de erro do React que isola a cena.
+**Movimento.** A página revela as demandas e as reúne em uma fila com animações CSS vinculadas à rolagem quando o navegador oferece suporte. Em telas amplas e altas, o painel de jornada acompanha a etapa sob o centro da janela. A rolagem continua nativa e os botões também permitem escolher uma etapa. Em telas estreitas ou baixas, a jornada usa navegação compacta. Com movimento reduzido, os mesmos registros são apresentados estaticamente.
 
 **Dados.** A visão geral usa `useDashboard` para os dados administrativos e `usePanelContext` para os atalhos. O módulo de Clientes usa `useClients` para a lista, a pesquisa e a paginação. As consultas reutilizam o carregamento, o cancelamento e a nova tentativa de `useAsyncData`. Os serviços escolhem a amostra ou a API REST conforme a configuração de ambiente. O estabelecimento “Chaveiro Horizonte” e os registros da amostra são fictícios.
 
-### Redesign premium — fases 1 a 3
+### Redesign conceitual da landing
 
-A auditoria no Edge cobriu a landing page, o Dashboard, os oito módulos e a tela de sessão. A apresentação anterior dava o mesmo peso aos três cartões e descrevia como previstos alguns recursos já integrados. No painel, cores de bordas, campos e feedback se repetiam em folhas de estilo diferentes. Dashboard e módulos que dependem da API ainda precisam de um trabalho próprio de composição e navegação.
+**Auditoria.** Na captura da versão anterior, a chave predominava na primeira dobra e a prévia do produto só aparecia depois dos blocos de funcionalidades. A grade deixava pouco contexto sobre como as demandas se relacionavam. A versão atual traz a interface para o hero e reapresenta os mesmos quatro chamados dispersos como registros organizados na fila da oficina.
 
-- **Identidade.** Grafite e branco gelo dão base à interface. O azul orienta as ações, e a chave ocupa uma bancada de inspeção escura com retícula discreta. Space Grotesk organiza os títulos e Inter organiza os textos e controles. As duas fontes variáveis são servidas localmente. [Space Grotesk](https://github.com/google/fonts/tree/main/ofl/spacegrotesk) · [Inter](https://github.com/google/fonts/tree/main/ofl/inter)
-- **Design System.** `src/design-system.css` define superfícies, texto, bordas, foco, ação, espaçamento, raios, elevação e cores semânticas. O tema inicial segue o sistema e a escolha é salva no navegador. `ThemeToggle` está na landing, na sessão e no painel. A base foi aplicada a botões, campos, tabelas, diálogo de registro, menu lateral móvel, indicadores de status e mensagens. `DataState` oferece skeleton, nova tentativa e estado vazio.
-- **Landing page.** O hero assimétrico abre a narrativa do atendimento à entrega. A grade dá destaque a Clientes e Solicitações, distingue os módulos disponíveis via API e identifica Visitas e Estoque como planejados. A prévia usa os dados de demonstração já existentes e três abas operáveis por teclado. Os títulos, links, estados e controles preservam foco visível e respeitam a preferência de movimento reduzido. [WCAG 2.2](https://www.w3.org/TR/WCAG22/)
-- **Chave 3D.** A iluminação usa reflexos mais definidos e um metal com rugosidade ajustada. A rotação responde de forma amortecida ao cursor e mantém pausa, retomada, carregamento sob demanda e a imagem WebP quando a renderização está indisponível.
+**Direção editorial.** Papel claro, grafite esverdeado e um acento de alta visibilidade distinguem a landing. A tipografia Space Grotesk e Inter e o tema existente foram reutilizados. O símbolo PK foi redesenhado em vetor e passou a compartilhar o mesmo recurso de marca com o favicon. A composição alterna um quadro de atividade, uma fila alinhada, uma ficha que acompanha a rolagem e capturas das telas reais. Referências de apresentação de produto e progressão visual. [Linear](https://linear.app/) · [Stripe](https://stripe.com/) · [Apple](https://www.apple.com/macbook-air/) · [Framer](https://www.framer.com/)
+
+**Jornada e dados.** A abertura residencial de Mariana passa por oito etapas. Mensagens e ligações são ilustrativas, e o registro é feito pela equipe. Os indicadores e gráficos da prévia são calculados sobre as amostras existentes. As abas de orçamento, ordem e histórico exibem registros fictícios e identificam a necessidade da API para operá-los. Visitas e Estoque aparecem como planejados. As seis abas têm seleção por teclado, com setas, Home e End. [Padrão de abas do W3C](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/)
 
 | Área | Arquivos principais |
 | --- | --- |
-| Tokens, tipografia e temas | `src/design-system.css`, `src/index.css`, `src/theme.ts`, `src/main.tsx`, `src/components/ui/ThemeToggle.tsx`, `public/fonts/` e `index.html`. |
-| Apresentação pública | `src/pages/Landing/{LandingPage,PanelPreview}.tsx`, `src/pages/Landing/landing.css`, `src/components/layout/LandingHeader.tsx` e `src/routes/routes.ts`. |
-| Cena | `src/components/3d/{KeyShowcase,KeyScene}.tsx`. |
-| Aplicação dos padrões | `src/App.css`, layouts de painel, sessão e menu móvel, `src/components/ui/{DataState,Icon}.tsx`, `src/components/ui/modal.css`, estilos e feedback de Clientes, Solicitações e Painel. |
+| Roteiro e navegação pública | `src/pages/Landing/LandingPage.tsx`, `src/pages/Landing/story.ts`, `src/pages/Landing/landing.css` e `src/routes/routes.ts`. |
+| Jornada e prévia | `src/pages/Landing/ServiceJourney.tsx` e `src/pages/Landing/PanelPreview.tsx`. |
+| Marca e capturas | `src/assets/pk-mark.svg`, `src/components/ui/Brand.tsx`, `src/components/ui/Icon.tsx`, `index.html` e `public/demo-{desktop,mobile}.webp`. |
+| Limpeza do 3D | Manifesto e lockfile da raiz, `vite.config.ts`, componentes da cena, tipagem JSX, detecção de WebGL e poster. A versão com a chave está preservada no commit `5724f47`. |
 
-**Verificação.** Build e lint do front-end passaram. Os 11 testes de validação e PostgreSQL e a suíte HTTP passaram. O build integrado foi exercitado no Edge com dados sintéticos, sessão em cookie, cadastro confirmado por consulta SQL e restrição de técnico validada pela API. A landing e as nove telas do painel foram verificadas de 360 a 1920 px. O axe não apontou violações nas quatro vistas verificadas. O teste WebGL cobriu pausa, retomada, perda de contexto e movimento reduzido. O build ainda sinaliza o tamanho do arquivo 3D, de aproximadamente 266 kB com gzip, carregado sob demanda.
-
-As próximas fases abrangem a estrutura do painel e a navegação, o Dashboard operacional, o redesenho dos módulos, a experiência de login e as validações finais. A homologação do Supabase depende das informações do ambiente remoto.
+**Verificação.** Build, lint, os 11 testes de validação e PostgreSQL e a suíte HTTP passaram. No Edge, a landing foi verificada em 360, 390, 768, 1024, 1440 e 1920 px. A checagem cobriu rolagem nativa, avanço manual e automático na jornada, teclado, menu móvel, temas, movimento reduzido, imagens e links para o painel. O axe não apontou violações nas três vistas avaliadas. Com o build servido na mesma origem que a API local de teste, foram conferidos login, cookie HttpOnly, restrição de técnico e logout. O pacote 3D opcional, de cerca de 266 kB com gzip na versão anterior, saiu do build. As duas capturas WebP somam aproximadamente 101 kB e carregam sob demanda.
 
 ### Etapas anteriores
 

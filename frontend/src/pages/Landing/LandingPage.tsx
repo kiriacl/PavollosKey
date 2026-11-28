@@ -1,105 +1,155 @@
 import { productName } from '../../brand'
-import { KeyShowcase } from '../../components/3d/KeyShowcase'
 import { LandingHeader } from '../../components/layout/LandingHeader'
-import { Brand } from '../../components/ui/Brand'
+import { Brand, BrandMark } from '../../components/ui/Brand'
 import { Icon } from '../../components/ui/Icon'
 import { panelHref } from '../../routes/routes'
 import { usingMocks } from '../../services/http'
-import { PanelPreview } from './PanelPreview'
+import { HeroPanel, PanelPreview } from './PanelPreview'
+import { ServiceJourney } from './ServiceJourney'
+import { incoming } from './story'
 import './landing.css'
 
-const workflow = [
-  { title: 'Clientes e solicitações', text: 'Encontre o contato, registre o pedido e acompanhe o atendimento sem perder o contexto.', icon: 'requests', id: 'solicitacoes' },
-  { title: 'Orçamentos', text: 'Monte propostas por item e registre a decisão do cliente.', icon: 'quote', id: 'orcamentos' },
-  { title: 'Ordens de serviço', text: 'Atribua o trabalho e acompanhe a execução até a conclusão.', icon: 'tools', id: 'servicos' },
-] as const
+const imageBase = import.meta.env.BASE_URL
+
+function FirstContact() {
+  return (
+    <section className="story-hero" id="inicio" aria-labelledby="hero-title">
+      <div className="story-container hero-composition">
+        <div className="hero-copy">
+          <p className="hero-kicker"><span /> Gestão para chaveiros</p>
+          <h1 id="hero-title">Seu trabalho é abrir portas. <em>Não perder tempo.</em></h1>
+          <p>Organize clientes, atendimentos e ordens de serviço. Do primeiro chamado à entrega, tudo fica no mesmo lugar.</p>
+          <div className="story-actions">
+            <a href={panelHref()} className="story-button story-button-primary">
+              {usingMocks ? 'Abrir demonstração' : 'Acessar o sistema'}<Icon name="arrow" size={18} />
+            </a>
+            <a href="#atendimento" className="story-button story-button-quiet">Acompanhar um atendimento <Icon name="arrow" size={17} /></a>
+          </div>
+        </div>
+        <HeroPanel />
+      </div>
+      <div className="story-container intro-guide">
+        <a href="#funcionalidades"><Icon name="arrow" size={17} /> Veja como a história começa</a>
+        <span>Do primeiro chamado à entrega</span>
+      </div>
+    </section>
+  )
+}
+
+function IncomingDemands() {
+  return (
+    <section id="funcionalidades" className="story-incoming" aria-labelledby="incoming-title">
+      <div className="story-container incoming-layout">
+        <div className="chapter-opening">
+          <span className="chapter-tag">02 / A rotina</span>
+          <h2 id="incoming-title">Tudo chega ao mesmo tempo.</h2>
+          <p>Uma ligação atrasa a resposta de uma mensagem. Enquanto isso, um orçamento espera retorno e outra ordem já pode começar.</p>
+          <p className="story-disclosure">Exemplo ilustrativo. As mensagens e ligações chegam pelos canais da oficina. O registro no sistema é feito pela equipe.</p>
+        </div>
+        <ol className="incoming-feed" aria-label="Quatro demandas de uma manhã na oficina">
+          {incoming.map(({ time, title, source, icon, note }) => (
+            <li key={time} className="incoming-event story-reveal">
+              <time dateTime={time}>{time}</time>
+              <div className="incoming-message">
+                <span className="incoming-icon"><Icon name={icon} size={19} /></span>
+                <div><span className="incoming-source">{source}</span><h3>{title}</h3><p>{note}</p></div>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )
+}
+
+function OrganizedDemands() {
+  return (
+    <section className="story-organized" aria-labelledby="organized-title">
+      <div className="story-container">
+        <div className="chapter-opening organized-intro">
+          <div>
+            <span className="chapter-tag">03 / Do caos ao controle</span>
+            <h2 id="organized-title">Tudo encontra seu lugar.</h2>
+          </div>
+          <p>Com os dados registrados no painel, você sabe de quem é cada chamado, o que aguarda resposta e qual serviço pode começar.</p>
+        </div>
+        <div className="queue-board">
+          <div className="queue-heading"><span><BrandMark /> Fila de trabalho</span><span>Dados ilustrativos</span></div>
+          <ul className="queue-list">
+            {incoming.map(({ time, title, person, status, icon }) => (
+              <li key={time} className="queue-row story-converge">
+                <span className="queue-icon"><Icon name={icon} size={19} /></span>
+                <div><strong>{title}</strong><span>{person}</span></div>
+                <time dateTime={time}>{time}</time>
+                <span className="queue-status">{status}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function FieldUse() {
+  return (
+    <section className="story-field" aria-labelledby="field-title">
+      <div className="story-container field-layout">
+        <div className="chapter-opening">
+          <span className="chapter-tag">06 / No balcão e em campo</span>
+          <h2 id="field-title">O atendimento vai com você.</h2>
+          <p>No balcão, acompanhe a fila de trabalho. Durante um chamado, consulte os dados da solicitação e do cliente pelo celular.</p>
+          <p className="story-disclosure">Capturas do Pávolloskeys em modo demonstração.</p>
+        </div>
+        <figure className="device-composition">
+          <img className="device-desktop" src={imageBase + 'demo-desktop.webp'} width="1280" height="880" loading="lazy" decoding="async"
+            alt="Dashboard do Pávolloskeys no computador, com indicadores, gráficos e solicitações recentes." />
+          <img className="device-mobile" src={imageBase + 'demo-mobile.webp'} width="390" height="740" loading="lazy" decoding="async"
+            alt="Detalhes de uma solicitação de abertura residencial no celular." />
+        </figure>
+      </div>
+    </section>
+  )
+}
 
 export function LandingPage() {
   return (
     <div className="landing">
       <LandingHeader />
       <main id="conteudo" tabIndex={-1}>
-        <section className="hero" id="inicio" aria-labelledby="hero-title">
-          <div className="container hero-layout">
-            <div className="hero-copy">
-              <p className="eyebrow"><span />Gestão para chaveiros</p>
-              <h1 id="hero-title">Sua oficina,<br /><em>sob controle.</em></h1>
-              <p className="hero-description">
-                Organize clientes, atendimentos, orçamentos e ordens de serviço em um só lugar, do balcão à entrega.
-              </p>
-              <div className="hero-actions">
-                <a href={panelHref()} className="button button-primary">
-                  {usingMocks ? 'Abrir demonstração' : 'Acessar painel'}
-                  <Icon name="arrow" size={18} />
-                </a>
-                <a href="#funcionalidades" className="button button-secondary">Conhecer o fluxo</a>
-              </div>
-            </div>
-            <KeyShowcase />
-          </div>
-        </section>
-
-        <section className="workflow-section" id="funcionalidades" aria-labelledby="features-title">
-          <div className="container">
-            <div className="section-intro">
-              <h2 id="features-title">Do primeiro pedido<br />à entrega.</h2>
-              <p>Consulte quem pediu o serviço, o que foi aprovado e em que etapa está o trabalho.</p>
-            </div>
-            <div className="workflow-grid">
-              {workflow.map(({ title, text, icon, id }) => {
-                const inDemo = id === 'solicitacoes'
-                return (
-                  <article className="workflow-item reveal" key={id}>
-                    <span className="icon-tile"><Icon name={icon} size={22} /></span>
-                    <h3>{title}</h3>
-                    <p>{text}</p>
-                    {inDemo ? (
-                      <div className="workflow-links">
-                        <a href={panelHref('clientes')} className="text-link">Clientes <Icon name="diagonal" size={14} /></a>
-                        <a href={panelHref(id)} className="text-link">Solicitações <Icon name="diagonal" size={14} /></a>
-                      </div>
-                    ) : (
-                      <a href={panelHref(id)} className="workflow-status"
-                        aria-label={usingMocks ? `${title} · Disponível no modo API` : `Abrir no painel · ${title}`}>
-                        {usingMocks ? 'Disponível no modo API' : 'Abrir no painel'} <Icon name="diagonal" size={14} />
-                      </a>
-                    )}
-                  </article>
-                )
-              })}
-            </div>
-            <div className="workflow-planned">
-              <Icon name="calendar" size={19} />
-              <p><strong>Planejado</strong> · Agenda de visitas e controle de estoque.</p>
-            </div>
-          </div>
-        </section>
-
-        <section id="projeto" className="preview-section" aria-labelledby="preview-title" data-surface="night">
-          <div className="container preview-layout">
-            <div className="preview-copy">
-              <p className="eyebrow"><span />Prévia do painel</p>
-              <h2 id="preview-title">Veja o que precisa de atenção.</h2>
-              <p>Alterne entre os indicadores, os contatos e os pedidos para conhecer a rotina do painel.</p>
-              <a href={panelHref()} className="button button-primary">
-                {usingMocks ? 'Explorar demonstração' : 'Entrar no painel'}
-                <Icon name="arrow" size={18} />
-              </a>
+        <FirstContact />
+        <IncomingDemands />
+        <OrganizedDemands />
+        <ServiceJourney />
+        <section id="projeto" className="story-product" aria-labelledby="product-title">
+          <div className="story-container">
+            <div className="chapter-opening product-intro">
+              <div><span className="chapter-tag">05 / O produto</span><h2 id="product-title">Um painel para o dia inteiro.</h2></div>
+              <p>Explore os módulos para ver como indicadores, cadastros, propostas e ordens se conectam.</p>
             </div>
             <PanelPreview />
+            <p className="product-scope">Orçamentos, ordens e histórico funcionam com a API. Agenda de visitas e estoque estão planejados.</p>
+          </div>
+        </section>
+        <FieldUse />
+        <section className="story-ending" aria-labelledby="ending-title">
+          <div className="story-container ending-composition">
+            <div>
+              <span className="chapter-tag">07 / O próximo chamado</span>
+              <h2 id="ending-title">Você abre portas. <span>Nós organizamos o caminho.</span></h2>
+            </div>
+            <div className="story-actions">
+              <a href={panelHref()} className="story-button story-button-primary">{usingMocks ? 'Abrir demonstração' : 'Acessar o sistema'}<Icon name="arrow" size={18} /></a>
+              <a href="#projeto" className="story-button story-button-quiet">Explorar a prévia</a>
+            </div>
           </div>
         </section>
       </main>
-      <footer className="site-footer">
-        <div className="container footer-row">
-          <div>
-            <Brand />
-            <p>Gestão para chaveiros.</p>
-          </div>
+      <footer className="story-footer">
+        <div className="story-container footer-composition">
+          <Brand />
           <nav aria-label="Rodapé">
-            <a href="#funcionalidades">Funcionalidades</a>
-            <a href="#projeto">Prévia do painel</a>
-            <a href={panelHref()}>Painel <Icon name="diagonal" size={14} /></a>
+            <a href="#atendimento">A jornada</a><a href="#projeto">Produto</a><a href={panelHref()}>Painel <Icon name="diagonal" size={15} /></a>
           </nav>
           <small>© {productName}</small>
         </div>

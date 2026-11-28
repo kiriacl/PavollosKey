@@ -10,6 +10,5 @@ export default defineConfig({
     strictPort: true,
     proxy: { "/api": { target: "http://127.0.0.1:3001", changeOrigin: true } },
   },
-  // O app e as bibliotecas 3D da raiz precisam compartilhar a mesma instância de React.
-  resolve: { dedupe: ["react", "react-dom", "three", "@react-three/fiber"] },
+  resolve: { dedupe: ["react", "react-dom"] },
 });

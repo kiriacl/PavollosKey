@@ -80,8 +80,9 @@ export const requestHref = (id: string) => `${panelHref('solicitacoes')}/${encod
 
 export const sections = [
   { id: 'inicio', label: 'Início' },
-  { id: 'funcionalidades', label: 'Funcionalidades' },
-  { id: 'projeto', label: 'Prévia do painel' },
+  { id: 'funcionalidades', label: 'A rotina' },
+  { id: 'atendimento', label: 'A jornada' },
+  { id: 'projeto', label: 'O produto' },
 ] as const
 
 type Route =

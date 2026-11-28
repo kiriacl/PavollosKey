@@ -1,6 +1,6 @@
 # Pávolloskeys
 
-O Pávolloskeys é uma plataforma de gestão para chaveiros. O fluxo integrado acompanha o cliente do atendimento à cotação, ao orçamento e à ordem de serviço. A landing page mantém a apresentação da chave 3D e o painel também pode ser aberto com dados de demonstração.
+O Pávolloskeys é uma plataforma de gestão para chaveiros. O fluxo integrado acompanha o cliente do atendimento à cotação, ao orçamento e à ordem de serviço. A landing page apresenta esse percurso como uma história interativa, e o painel pode ser aberto com dados de demonstração.
 
 | Pasta | Conteúdo |
 | --- | --- |
