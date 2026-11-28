@@ -75,7 +75,10 @@ export const modules: Record<ModuleId, ModuleInfo> = {
   },
 }
 
-export const panelHref = (id?: ModuleId) => (id ? `#/painel/${id}` : '#/painel')
+export const panelHref = (id?: ModuleId, params?: Record<string, string>) => {
+  const query = new URLSearchParams(params).toString()
+  return (id ? `#/painel/${id}` : '#/painel') + (query ? `?${query}` : '')
+}
 export const requestHref = (id: string) => `${panelHref('solicitacoes')}/${encodeURIComponent(id)}`
 
 export const sections = [
@@ -86,19 +89,21 @@ export const sections = [
 ] as const
 
 type Route =
-  { page: 'landing' } | { page: 'overview' } | { page: 'module'; id: ModuleId; requestId?: string } | { page: 'missing' }
+  { page: 'landing' } | { page: 'overview' } | { page: 'module'; id: ModuleId; requestId?: string; query: URLSearchParams } | { page: 'missing' }
 
 export function parseRoute(hash: string): Route {
   if (!hash.startsWith('#/')) return { page: 'landing' }
-  const path = hash.slice(1).replace(/\/+$/, '')
+  const [segment, search] = hash.slice(1).split('?', 2)
+  const path = segment.replace(/\/+$/, '')
+  const query = new URLSearchParams(search)
   if (!path) return { page: 'landing' }
   if (path === '/painel') return { page: 'overview' }
   const [, parent, id, ...extra] = path.split('/')
-  if (parent === 'painel' && isModuleId(id) && extra.length === 0) return { page: 'module', id }
+  if (parent === 'painel' && isModuleId(id) && extra.length === 0) return { page: 'module', id, query }
   if (parent === 'painel' && id === 'solicitacoes' && extra.length === 1) {
     try {
       const requestId = decodeURIComponent(extra[0])
-      if (requestId.trim() && requestId !== '.' && requestId !== '..') return { page: 'module', id, requestId }
+      if (requestId.trim() && requestId !== '.' && requestId !== '..') return { page: 'module', id, requestId, query }
     } catch {
       return { page: 'missing' }
     }

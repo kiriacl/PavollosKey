@@ -1,4 +1,5 @@
 import type { RequestStatus } from './request'
+import type { Order } from '../services/operations'
 
 export const serviceStatuses = ['aguardando', 'em_andamento', 'concluido', 'cancelado'] as const
 export const visitStatuses = ['agendada', 'realizada', 'cancelada'] as const
@@ -25,6 +26,7 @@ export interface DashboardVisit {
 export interface DashboardData {
   solicitacoes: DashboardRequest[]
   servicos: DashboardService[]
+  ordens?: Order[]
   visitas: DashboardVisit[] | null
 }
 

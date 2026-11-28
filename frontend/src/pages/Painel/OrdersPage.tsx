@@ -9,9 +9,9 @@ import {
 } from '../../services/operations'
 import { formatTimestamp } from '../../utils/dates'
 
-export function OrdersPage() {
+export function OrdersPage({ initialOrder = '' }: { initialOrder?: string }) {
   const query = useAsyncData(listOrders)
-  const [orderId, setOrderId] = useState('')
+  const [orderId, setOrderId] = useState(initialOrder)
   return (
     <div className="operation-grid">
       <section className="dashboard-card operation-card">

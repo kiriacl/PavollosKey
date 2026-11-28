@@ -4,18 +4,33 @@ import { ClientTable } from '../../components/clients/ClientTable'
 import { DataState } from '../../components/ui/DataState'
 import { Icon } from '../../components/ui/Icon'
 import { useClients } from '../../hooks/useClients'
+import { panelHref, parseRoute } from '../../routes/routes'
 import { usingMocks } from '../../services/http'
 import type { Client } from '../../types/client'
 import './clients.css'
 
-export function ClientsPage() {
+export function ClientsPage({ create = false }: { create?: boolean }) {
   const clients = useClients()
-  const [selection, setSelection] = useState<ClientSelection | null>(null)
+  const [selection, setSelection] = useState<ClientSelection | null>(create ? { mode: 'create' } : null)
+  const [previousCreate, setPreviousCreate] = useState(create)
   const [notice, setNotice] = useState('')
   const headingRef = useRef<HTMLHeadingElement>(null)
   const searchRef = useRef<HTMLInputElement>(null)
   const newClientRef = useRef<HTMLButtonElement>(null)
   const listTitleRef = useRef<HTMLHeadingElement>(null)
+
+  if (create !== previousCreate) {
+    setPreviousCreate(create)
+    setSelection(create ? { mode: 'create' } : null)
+  }
+
+  function dismiss() {
+    setSelection(null)
+    const route = parseRoute(window.location.hash)
+    if (route.page === 'module' && route.id === 'clientes' && route.query.get('acao') === 'novo') {
+      window.location.replace(panelHref('clientes'))
+    }
+  }
 
   function open(selection: ClientSelection) {
     setNotice('')
@@ -26,7 +41,7 @@ export function ClientsPage() {
     const created = selection?.mode === 'create'
     clients.saveToList(client, created)
     setNotice(created ? `Cliente ${client.nome} cadastrado com sucesso.` : `Cadastro de ${client.nome} atualizado com sucesso.`)
-    setSelection(null)
+    dismiss()
 
     // O filtro pode ocultar o contato editado, removendo o botão que abriu o diálogo.
     requestAnimationFrame(() => {
@@ -115,8 +130,8 @@ export function ClientsPage() {
         </section>
       )}
 
-      {selection && (
-        <ClientDialog selection={selection} onSaved={saved} onDismiss={() => setSelection(null)}
+      {selection && clients.status === 'ready' && (
+        <ClientDialog selection={selection} onSaved={saved} onDismiss={dismiss}
           onEdit={(id) => setSelection({ mode: 'edit', id })} />
       )}
     </div>

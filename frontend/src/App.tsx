@@ -3,7 +3,8 @@ import { productName } from './brand'
 import { PanelLayout } from './components/layout/PanelLayout'
 import { PanelSession } from './components/layout/PanelSession'
 import { LandingPage } from './pages/Landing/LandingPage'
-import { ModulePage, OverviewPage } from './pages/Painel/PanelPages'
+import { OperationsOverview } from './pages/Painel/OperationsOverview'
+import { ModulePage } from './pages/Painel/PanelPages'
 import { modules, parseRoute, sections } from './routes/routes'
 import './App.css'
 import './pages/Painel/operations.css'
@@ -22,7 +23,7 @@ export default function App() {
       ? modules[route.id].title
       : {
           landing: 'Gestão para chaveiros',
-          overview: 'Visão geral',
+          overview: 'Central de operações',
           missing: 'Página não encontrada',
         }[route.page]
 
@@ -58,7 +59,7 @@ export default function App() {
         <PanelSession>
           {(profile, signOut) => (
             <PanelLayout current={route.page === 'module' ? route.id : undefined} profile={profile} onSignOut={signOut}>
-              {route.page === 'module' ? <ModulePage key={route.id} id={route.id} requestId={route.requestId} /> : <OverviewPage />}
+              {route.page === 'module' ? <ModulePage key={route.id} id={route.id} requestId={route.requestId} query={route.query} /> : <OperationsOverview />}
             </PanelLayout>
           )}
         </PanelSession>

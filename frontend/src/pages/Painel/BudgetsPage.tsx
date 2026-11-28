@@ -20,9 +20,11 @@ async function loadRequests(signal: AbortSignal) {
   return requests.map((request) => ({ ...request, cliente: names.get(request.clienteId) }))
 }
 
-export function BudgetsPage() {
+type BudgetSelection = { atendimento?: string; cotacao?: string; orcamento?: string }
+
+export function BudgetsPage({ selection }: { selection?: BudgetSelection }) {
   const query = useAsyncData(loadRequests)
-  const [requestId, setRequestId] = useState('')
+  const [requestId, setRequestId] = useState(selection?.atendimento ?? '')
   return (
     <div className="operation-grid">
       <section className="dashboard-card operation-card">
@@ -40,16 +42,17 @@ export function BudgetsPage() {
         </ReadResult>
       </section>
       {query.result.status === 'ready' && query.result.data.map((request) => request.id === requestId && (
-        <Quotes key={request.id} requestId={request.id} open={request.status === 'pendente'} status={request.status} />
+        <Quotes key={request.id} requestId={request.id} open={request.status === 'pendente'} status={request.status}
+          selection={request.id === selection?.atendimento ? selection : undefined} />
       ))}
     </div>
   )
 }
 
-function Quotes({ requestId, open, status }: { requestId: string; open: boolean; status: RequestStatus }) {
+function Quotes({ requestId, open, status, selection }: { requestId: string; open: boolean; status: RequestStatus; selection?: BudgetSelection }) {
   const load = useCallback((signal: AbortSignal) => listQuotes(requestId, signal), [requestId])
   const query = useAsyncData(load)
-  const [quoteId, setQuoteId] = useState('')
+  const [quoteId, setQuoteId] = useState(selection?.cotacao ?? '')
   const [notice, setNotice] = useState('')
   return (
     <>
@@ -88,7 +91,8 @@ function Quotes({ requestId, open, status }: { requestId: string; open: boolean;
         </ReadResult>
       </section>
       {quoteId && query.result.status === 'ready' && query.result.data.some(({ id }) => id === quoteId)
-        && <BudgetVersions key={quoteId} quoteId={quoteId} open={open} />}
+        && <BudgetVersions key={quoteId} quoteId={quoteId} open={open}
+          initialBudget={quoteId === selection?.cotacao ? selection?.orcamento : undefined} />}
     </>
   )
 }
@@ -106,10 +110,10 @@ function ItemFields() {
   )
 }
 
-function BudgetVersions({ quoteId, open }: { quoteId: string; open: boolean }) {
+function BudgetVersions({ quoteId, open, initialBudget = '' }: { quoteId: string; open: boolean; initialBudget?: string }) {
   const load = useCallback((signal: AbortSignal) => listBudgets(quoteId, signal), [quoteId])
   const query = useAsyncData(load)
-  const [budgetId, setBudgetId] = useState('')
+  const [budgetId, setBudgetId] = useState(initialBudget)
   const [notice, setNotice] = useState('')
   return (
     <>
@@ -145,7 +149,8 @@ function BudgetVersions({ quoteId, open }: { quoteId: string; open: boolean }) {
           </OperationForm>
         </details>}
       </section>
-      {budgetId && <BudgetDetails key={budgetId} id={budgetId} open={open} onChange={(saved) => {
+      {budgetId && query.result.status === 'ready' && query.result.data.some(({ id }) => id === budgetId)
+      && <BudgetDetails key={budgetId} id={budgetId} open={open} onChange={(saved) => {
         query.updateData((budgets) => budgets.map((budget) => budget.id === saved.id ? saved : budget))
       }} />}
     </>

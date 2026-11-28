@@ -130,6 +130,7 @@ section[id] {
 .button-primary {
   color: var(--action-text);
   background: var(--action);
+  border-color: var(--action-line);
 }
 
 .button-primary:hover {
@@ -196,7 +197,7 @@ button:disabled {
   z-index: 20;
   padding: 0.7rem 1rem;
   color: white;
-  background: #143f9e;
+  background: var(--night);
   border-radius: 0.4rem;
   transform: translateY(-200%);
 }

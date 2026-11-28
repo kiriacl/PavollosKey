@@ -10,22 +10,22 @@ import { usingMocks } from '../../services/http'
 import type { ServiceRequest } from '../../types/request'
 import './requests.css'
 
-function linkedSelection(id?: string): RequestSelection | null {
-  return id ? { mode: 'view', id } : null
+function linkedSelection(id?: string, create = false): RequestSelection | null {
+  return id ? { mode: 'view', id } : create ? { mode: 'create' } : null
 }
 
-export function RequestsPage({ requestId }: { requestId?: string }) {
+export function RequestsPage({ requestId, create = false }: { requestId?: string; create?: boolean }) {
   const list = useRequests()
-  const [selection, setSelection] = useState<RequestSelection | null>(() => linkedSelection(requestId))
-  const [previousRequestId, setPreviousRequestId] = useState(requestId)
+  const [selection, setSelection] = useState<RequestSelection | null>(() => linkedSelection(requestId, create))
+  const [previous, setPrevious] = useState({ requestId, create })
   const [notice, setNotice] = useState('')
   const headingRef = useRef<HTMLHeadingElement>(null)
   const listHeadingRef = useRef<HTMLHeadingElement>(null)
   const newRequestRef = useRef<HTMLButtonElement>(null)
 
-  if (requestId !== previousRequestId) {
-    setPreviousRequestId(requestId)
-    setSelection(linkedSelection(requestId))
+  if (requestId !== previous.requestId || create !== previous.create) {
+    setPrevious({ requestId, create })
+    setSelection(linkedSelection(requestId, create))
   }
 
   const data = list.result.status === 'ready' ? list.result.data : undefined
@@ -44,7 +44,8 @@ export function RequestsPage({ requestId }: { requestId?: string }) {
   function dismiss() {
     setSelection(null)
     const route = parseRoute(window.location.hash)
-    if (requestId && route.page === 'module' && route.requestId === requestId) {
+    if (route.page === 'module' && route.id === 'solicitacoes'
+      && ((requestId && route.requestId === requestId) || route.query.get('acao') === 'novo')) {
       window.location.replace(panelHref('solicitacoes'))
     }
   }
@@ -89,7 +90,7 @@ export function RequestsPage({ requestId }: { requestId?: string }) {
             <h2 id="request-list-title" ref={listHeadingRef} tabIndex={-1}>{heading}</h2>
             {data.clients.size === 0 && (
               <p className="request-note">
-                <a className="text-link" href={panelHref('clientes')}>Cadastre um cliente</a> para registrar uma solicitação.
+                <a className="text-link" href={panelHref('clientes', { acao: 'novo' })}>Cadastre um cliente</a> para registrar uma solicitação.
               </p>
             )}
             {total > 0 && (
@@ -112,7 +113,7 @@ export function RequestsPage({ requestId }: { requestId?: string }) {
           </div>
         </section>
       )}
-      {selection && data && (
+      {selection && data && (selection.mode !== 'create' || data.clients.size > 0) && (
         <RequestDialog selection={selection} clients={data.clients} onDismiss={dismiss}
           onEdit={(id) => setSelection({ mode: 'edit', id })}
           onSaved={(request) => saved(request, selection.mode === 'create'

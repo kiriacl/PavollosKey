@@ -20,7 +20,7 @@ export const currentTheme = (): Theme => preference ?? (system.matches ? 'dark' 
 function applyTheme() {
   const theme = currentTheme()
   document.documentElement.dataset.theme = theme
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#0c1119' : '#f4f6f9')
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#101912' : '#f3f4ec')
   window.dispatchEvent(new Event(eventName))
 }
 

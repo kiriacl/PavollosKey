@@ -7,7 +7,7 @@ import type { Role } from '../services/auth'
 const trendMonths = 6
 
 async function loadDashboard(signal: AbortSignal, role?: Role) {
-  const { solicitacoes, servicos, visitas } = await getDashboard(signal, role)
+  const { solicitacoes, servicos, ordens, visitas } = await getDashboard(signal, role)
   const requests = solicitacoes.toSorted((first, second) =>
     second.dataSolicitacao.localeCompare(first.dataSolicitacao),
   )
@@ -34,10 +34,12 @@ async function loadDashboard(signal: AbortSignal, role?: Role) {
 
   return {
     requests,
+    ordens,
     byStatus,
     monthly,
     inProgress: servicos.filter((service) => service.status === 'em_andamento').length,
     completed: servicos.filter((service) => service.status === 'concluido').length,
+    waiting: servicos.filter((service) => service.status === 'aguardando').length,
     scheduled: visitas?.filter((visit) => visit.status === 'agendada').length,
   }
 }
