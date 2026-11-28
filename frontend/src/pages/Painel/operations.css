@@ -1,0 +1,79 @@
+.operation-grid,
+.operation-form,
+.operation-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.operation-form,
+.operation-list {
+  margin-block: 1rem;
+}
+
+.operation-form label,
+.operation-select {
+  display: grid;
+  gap: .35rem;
+}
+
+.operation-form :is(input, select, textarea),
+.operation-select select {
+  width: 100%;
+  min-width: 0;
+  padding: .65rem .75rem;
+  border: 1px solid #a9b6c3;
+  border-radius: .5rem;
+  background: #fff;
+  color: var(--color-ink);
+}
+
+.operation-form button {
+  justify-self: start;
+}
+
+.operation-form fieldset {
+  display: grid;
+  gap: .75rem;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+}
+
+.operation-grid > *,
+.operation-list > * {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.operation-card {
+  padding: 1.25rem;
+}
+
+.operation-list li {
+  border-bottom: 1px solid #a9b6c3;
+  padding-block: .6rem;
+}
+
+.session-card {
+  width: min(100%, 28rem);
+  text-align: start;
+  margin-inline: auto;
+}
+
+.session-card .brand {
+  color: var(--color-ink);
+}
+
+.panel-session-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: .5rem 1rem;
+}
+
+@media (max-width: 640px) {
+  .panel-session-actions > span {
+    display: none;
+  }
+}

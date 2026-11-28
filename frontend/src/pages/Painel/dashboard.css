@@ -101,30 +101,6 @@
   margin-top: 0.35rem;
 }
 
-.request-pendente {
-  --request-color: #a16b12;
-  --request-ink: #704608;
-  --request-tint: #fff2d9;
-}
-
-.request-em_atendimento {
-  --request-color: #3569dc;
-  --request-ink: #1f469b;
-  --request-tint: #e9f0ff;
-}
-
-.request-resolvida {
-  --request-color: #248267;
-  --request-ink: #185a46;
-  --request-tint: #e1f4ec;
-}
-
-.request-cancelada {
-  --request-color: #64748b;
-  --request-ink: #435268;
-  --request-tint: #edf1f6;
-}
-
 .status-chart {
   display: grid;
   gap: 0.95rem;
@@ -139,15 +115,13 @@
   font-size: 0.86rem;
 }
 
-.status-chart li > span,
-.request-pill {
+.status-chart li > span {
   display: flex;
   align-items: center;
   gap: 0.4rem;
 }
 
-.status-chart i,
-.request-pill i {
+.status-chart i {
   width: 0.42rem;
   height: 0.42rem;
   flex: none;
@@ -271,7 +245,7 @@
 
 .request-columns {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.55fr) minmax(5.15rem, 0.8fr) minmax(4rem, 0.7fr) minmax(7.65rem, 1fr);
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.55fr) minmax(5.15rem, 0.8fr) minmax(4rem, 0.7fr) minmax(7.65rem, 1fr) 4.45rem;
   align-items: center;
   gap: 0.75rem;
   padding: 0.8rem clamp(0.9rem, 3cqi, 1.4rem);
@@ -306,16 +280,6 @@
 }
 
 .request-name {
-  font-weight: 700;
-}
-
-.request-pill {
-  display: inline-flex;
-  padding: 0.22rem 0.55rem;
-  border-radius: 2rem;
-  background: var(--request-tint);
-  color: var(--request-ink);
-  font-size: 0.77rem;
   font-weight: 700;
 }
 
@@ -366,7 +330,9 @@
   .dashboard-charts {
     grid-template-columns: 1fr;
   }
+}
 
+@container (max-width: 43rem) {
   .request-column-headings {
     display: none;
   }

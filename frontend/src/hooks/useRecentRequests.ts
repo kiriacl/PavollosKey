@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import type { DashboardRequest, RequestStatus } from '../types/dashboard'
+import type { DashboardRequest } from '../types/dashboard'
+import type { RequestStatus } from '../types/request'
 
 type StatusFilter = RequestStatus | 'all'
 const pageSize = 6

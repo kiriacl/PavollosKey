@@ -1,4 +1,5 @@
 import { Component, lazy, Suspense, useCallback, useRef, useState, type ReactNode } from 'react'
+import { productName } from '../../brand'
 import { useSceneAvailability } from '../../hooks/useSceneAvailability'
 import { Icon } from '../ui/Icon'
 
@@ -78,7 +79,7 @@ export function KeyShowcase() {
     <figure
       className="key-stage"
       ref={container}
-      aria-label="Chave estilizada com lâmina metálica e cabeça azul com o monograma PK"
+      aria-label={`Chave do ${productName} com lâmina metálica e cabeça azul com o monograma PK`}
     >
       <div className="stage-grid" aria-hidden="true" />
       <div className="stage-dial" aria-hidden="true">

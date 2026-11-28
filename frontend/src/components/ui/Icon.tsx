@@ -66,6 +66,7 @@ const drawings = {
     </>
   ),
   check: <path d="m5 12 4 4L19 6" />,
+  plus: <path d="M12 5v14M5 12h14" />,
   search: (
     <>
       <circle cx="10.5" cy="10.5" r="5.5" />

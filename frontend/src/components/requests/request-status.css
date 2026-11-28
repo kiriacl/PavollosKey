@@ -1,0 +1,43 @@
+.request-pendente {
+  --request-color: #a16b12;
+  --request-ink: #704608;
+  --request-tint: #fff2d9;
+}
+
+.request-em_atendimento {
+  --request-color: #3569dc;
+  --request-ink: #1f469b;
+  --request-tint: #e9f0ff;
+}
+
+.request-resolvida {
+  --request-color: #248267;
+  --request-ink: #185a46;
+  --request-tint: #e1f4ec;
+}
+
+.request-cancelada {
+  --request-color: #64748b;
+  --request-ink: #435268;
+  --request-tint: #edf1f6;
+}
+
+.request-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.22rem 0.55rem;
+  border-radius: 2rem;
+  background: var(--request-tint);
+  color: var(--request-ink);
+  font-size: 0.77rem;
+  font-weight: 700;
+}
+
+.request-pill i {
+  width: 0.42rem;
+  height: 0.42rem;
+  flex: none;
+  border-radius: 50%;
+  background: var(--request-color);
+}

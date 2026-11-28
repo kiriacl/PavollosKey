@@ -1,3 +1,4 @@
+import { productName } from '../../brand'
 import { KeyShowcase } from '../../components/3d/KeyShowcase'
 import { LandingHeader } from '../../components/layout/LandingHeader'
 import { Brand } from '../../components/ui/Brand'
@@ -8,22 +9,22 @@ import type { ModuleId } from '../../types/panel'
 
 const features: { title: string; text: string; icon: IconName; areas: ModuleId[]; color: string }[] = [
   {
-    title: 'Atendimento ao cliente',
-    text: 'Cadastros e pedidos de serviço recebidos no balcão, por telefone ou WhatsApp.',
+    title: 'Clientes e solicitações',
+    text: 'Gerencie cadastros de clientes, registre solicitações de serviço e acompanhe seu status.',
     icon: 'users',
     areas: ['clientes', 'solicitacoes'],
     color: 'blue',
   },
   {
-    title: 'Atendimento em campo',
-    text: 'Agenda de visitas, endereços de atendimento e acompanhamento de cada serviço.',
+    title: 'Visitas e serviços',
+    text: 'Consulte indicadores de visitas e serviços. A agenda e o acompanhamento individual estão previstos.',
     icon: 'calendar',
     areas: ['visitas', 'servicos'],
     color: 'teal',
   },
   {
     title: 'Gestão da oficina',
-    text: 'Consulta de orçamentos, taxas de deslocamento e materiais da oficina.',
+    text: 'A gestão de orçamentos e o controle de estoque estão previstos para a rotina da oficina.',
     icon: 'box',
     areas: ['orcamentos', 'estoque'],
     color: 'violet',
@@ -48,8 +49,8 @@ export function LandingPage() {
                 <em>sob controle.</em>
               </h1>
               <p className="hero-description">
-                Do primeiro contato à conclusão do serviço, organize clientes, visitas e atendimentos em um só
-                painel.
+                Gerencie os cadastros de clientes e acompanhe indicadores de solicitações, serviços e visitas em um
+                só painel.
               </p>
               <div className="hero-actions">
                 <a href={panelHref()} className="button button-primary">
@@ -74,7 +75,7 @@ export function LandingPage() {
                 </p>
                 <h2 id="features-title">Da solicitação à entrega.</h2>
               </div>
-              <p>Explore as áreas previstas para acompanhar cada parte da rotina do seu chaveiro.</p>
+              <p>Conheça o que já está disponível para demonstração e o que está previsto para o painel.</p>
             </div>
             <div className="feature-grid">
               {features.map((feature) => (
@@ -102,16 +103,20 @@ export function LandingPage() {
             <div>
               <p className="eyebrow">
                 <span />
-                Sobre o projeto
+                Sobre a plataforma
               </p>
-              <h2 id="project-title">De Chaveiro Fácil a PávollosKeys.</h2>
+              <h2 id="project-title">{productName}</h2>
             </div>
             <div>
               <p>
-                O PávollosKeys é um projeto acadêmico de Engenharia de Software baseado no Chaveiro Fácil. A
-                proposta reúne em um único ambiente o trabalho do balcão e os atendimentos externos.
+                O {productName} é uma plataforma de gestão para chaveiros em desenvolvimento. Seu objetivo é
+                centralizar a rotina do balcão e dos atendimentos externos.
               </p>
-              <p>Esta primeira versão permite conhecer a navegação com dados fictícios.</p>
+              <p>
+                A demonstração inclui o painel de indicadores e o gerenciamento de clientes e solicitações. A gestão
+                de atendimentos, visitas, orçamentos, pagamentos e estoque está prevista, assim como integrações de
+                dados e automações.
+              </p>
               <a href={panelHref()} className="text-link">
                 Explorar o painel
               </a>
@@ -122,7 +127,7 @@ export function LandingPage() {
       <footer className="site-footer">
         <div className="container footer-row">
           <Brand />
-          <span>Projeto acadêmico de Engenharia de Software</span>
+          <span>Plataforma de gestão para chaveiros</span>
         </div>
       </footer>
     </div>

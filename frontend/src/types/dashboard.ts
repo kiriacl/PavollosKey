@@ -1,14 +1,12 @@
-// Estados provisórios do contrato de leitura do Dashboard.
-export const requestStatuses = ['pendente', 'em_atendimento', 'resolvida', 'cancelada'] as const
-export const serviceStatuses = ['aguardando', 'em_andamento', 'concluido'] as const
-export const visitStatuses = ['agendada', 'realizada', 'cancelada'] as const
+import type { RequestStatus } from './request'
 
-export type RequestStatus = (typeof requestStatuses)[number]
+export const serviceStatuses = ['aguardando', 'em_andamento', 'concluido', 'cancelado'] as const
+export const visitStatuses = ['agendada', 'realizada', 'cancelada'] as const
 
 export interface DashboardRequest {
   id: string
   cliente: string
-  tipoServico: string
+  descricao: string
   dataSolicitacao: string // Data civil no formato AAAA-MM-DD.
   origem: string
   status: RequestStatus
@@ -27,7 +25,7 @@ export interface DashboardVisit {
 export interface DashboardData {
   solicitacoes: DashboardRequest[]
   servicos: DashboardService[]
-  visitas: DashboardVisit[]
+  visitas: DashboardVisit[] | null
 }
 
 export type RequestCounts = Record<RequestStatus, number>

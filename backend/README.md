@@ -47,7 +47,7 @@ npm run test:http
 
 ## Integração com a interface
 
-Sirva Vite e Next.js pela mesma origem e encaminhe `/api/*` ao Next.js preservando cookies e o caminho completo. Configure `VITE_API_BASE_URL=/api` no ambiente do Vite e reinicie seu servidor. O serviço atual do painel já consome `GET /api/painel/contexto`. As telas dos demais módulos precisam ser ligadas aos contratos pela equipe de front-end.
+Sirva Vite e Next.js pela mesma origem e encaminhe `/api/*` ao Next.js preservando cookies e o caminho completo. Configure `VITE_API_BASE_URL=/api` no ambiente do Vite e reinicie seu servidor. O [guia do front-end](../frontend/README.md) documenta o proxy de desenvolvimento, as telas integradas e o modo de demonstração.
 
 ## Roteiro de demonstração
 
@@ -62,4 +62,4 @@ Em PowerShell, `Invoke-RestMethod -SessionVariable sessao` guarda o cookie no lo
 
 ## Limitações atuais
 
-O banco remoto, o login real e a integração completa da interface requerem validação em ambiente autorizado. O envio registra a transição de estado. Mensagens de WhatsApp e cadastros no Supabase Auth são operados separadamente. O histórico é retornado pelas APIs de atendimento e ordem. Estoque, visitas e indicadores gerenciais ficam fora desse fluxo.
+O banco remoto e o login real requerem validação em ambiente autorizado. O envio registra a transição de estado. Mensagens de WhatsApp e cadastros no Supabase Auth são operados separadamente. O histórico é retornado pelas APIs de atendimento e ordem. O front-end calcula indicadores a partir das listas acessíveis ao perfil. Estoque e visitas aguardam contratos de API.

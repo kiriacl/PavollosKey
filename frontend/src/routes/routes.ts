@@ -76,15 +76,16 @@ export const modules: Record<ModuleId, ModuleInfo> = {
 }
 
 export const panelHref = (id?: ModuleId) => (id ? `#/painel/${id}` : '#/painel')
+export const requestHref = (id: string) => `${panelHref('solicitacoes')}/${encodeURIComponent(id)}`
 
 export const sections = [
   { id: 'inicio', label: 'Início' },
   { id: 'funcionalidades', label: 'Funcionalidades' },
-  { id: 'projeto', label: 'Sobre o projeto' },
+  { id: 'projeto', label: 'Sobre a plataforma' },
 ] as const
 
 type Route =
-  { page: 'landing' } | { page: 'overview' } | { page: 'module'; id: ModuleId } | { page: 'missing' }
+  { page: 'landing' } | { page: 'overview' } | { page: 'module'; id: ModuleId; requestId?: string } | { page: 'missing' }
 
 export function parseRoute(hash: string): Route {
   if (!hash.startsWith('#/')) return { page: 'landing' }
@@ -93,5 +94,13 @@ export function parseRoute(hash: string): Route {
   if (path === '/painel') return { page: 'overview' }
   const [, parent, id, ...extra] = path.split('/')
   if (parent === 'painel' && isModuleId(id) && extra.length === 0) return { page: 'module', id }
+  if (parent === 'painel' && id === 'solicitacoes' && extra.length === 1) {
+    try {
+      const requestId = decodeURIComponent(extra[0])
+      if (requestId.trim() && requestId !== '.' && requestId !== '..') return { page: 'module', id, requestId }
+    } catch {
+      return { page: 'missing' }
+    }
+  }
   return { page: 'missing' }
 }

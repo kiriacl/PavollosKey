@@ -1,9 +1,12 @@
 import { useEffect, useRef, useSyncExternalStore } from 'react'
+import { productName } from './brand'
 import { PanelLayout } from './components/layout/PanelLayout'
+import { PanelSession } from './components/layout/PanelSession'
 import { LandingPage } from './pages/Landing/LandingPage'
 import { ModulePage, OverviewPage } from './pages/Painel/PanelPages'
 import { modules, parseRoute, sections } from './routes/routes'
 import './App.css'
+import './pages/Painel/operations.css'
 
 function subscribeToLocation(listener: () => void) {
   window.addEventListener('hashchange', listener)
@@ -24,7 +27,7 @@ export default function App() {
         }[route.page]
 
   useEffect(() => {
-    document.title = title + ' | PávollosKeys'
+    document.title = route.page === 'landing' ? `${productName} | ${title}` : `${title} | ${productName}`
     const changed = previousHash.current !== hash
     previousHash.current = hash
     const section = sections.find((item) => hash === '#' + item.id)
@@ -36,7 +39,7 @@ export default function App() {
       heading?.setAttribute('tabindex', '-1')
       heading?.focus({ preventScroll: true })
     }
-  }, [hash, title])
+  }, [hash, route.page, title])
 
   return (
     <>
@@ -52,9 +55,13 @@ export default function App() {
       </a>
       {route.page === 'landing' && <LandingPage />}
       {(route.page === 'overview' || route.page === 'module') && (
-        <PanelLayout current={route.page === 'module' ? route.id : undefined}>
-          {route.page === 'module' ? <ModulePage id={route.id} /> : <OverviewPage />}
-        </PanelLayout>
+        <PanelSession>
+          {(profile, signOut) => (
+            <PanelLayout current={route.page === 'module' ? route.id : undefined} profile={profile} onSignOut={signOut}>
+              {route.page === 'module' ? <ModulePage key={route.id} id={route.id} requestId={route.requestId} /> : <OverviewPage />}
+            </PanelLayout>
+          )}
+        </PanelSession>
       )}
       {route.page === 'missing' && (
         <main className="missing-page" id="conteudo" tabIndex={-1}>

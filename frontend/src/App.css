@@ -125,11 +125,12 @@ body:has(.menu-dialog[open]) {
   min-height: clamp(29rem, 37.6vw, 34.6rem);
   display: grid;
   align-items: center;
-  grid-template-columns: 1fr 1.03fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.03fr);
   gap: clamp(1.5rem, 3.4vw, 3.4rem);
   padding-block: clamp(2.4rem, 3.8vw, 3.75rem);
 }
 .hero-copy {
+  container-type: inline-size;
   position: relative;
   z-index: 1;
 }
@@ -139,10 +140,12 @@ body:has(.menu-dialog[open]) {
 .hero h1 {
   margin: 1.2rem 0 1.25rem;
   color: #f6f8fd;
-  font-size: clamp(3.6rem, 5.8vw, 5.5rem);
+  font-size: clamp(2rem, 14.4cqi, 5.5rem);
   font-weight: 650;
   line-height: 1.035;
   letter-spacing: -0.065em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
 }
 .hero h1 em {
   color: #80aaff;
@@ -299,7 +302,7 @@ body:has(.menu-dialog[open]) {
   background: #243b5c;
 }
 
-/* Áreas apresentadas e projeto acadêmico */
+/* Áreas do painel e apresentação da plataforma */
 .features-section {
   padding-block: clamp(3.2rem, 5vw, 4.8rem);
   background: #f6f8fc;
@@ -631,9 +634,6 @@ body:has(.menu-dialog[open]) {
     gap: 1rem;
     min-height: 27rem;
   }
-  .hero h1 {
-    font-size: clamp(3.1rem, 6.5vw, 4.1rem);
-  }
   .panel-shell {
     grid-template-columns: 13.5rem minmax(0, 1fr);
   }
@@ -653,16 +653,13 @@ body:has(.menu-dialog[open]) {
     min-height: 4.15rem;
   }
   .hero-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     padding-top: 3.2rem;
     padding-bottom: 0.65rem;
     gap: 0.85rem;
   }
   .hero-copy {
     max-width: 34rem;
-  }
-  .hero h1 {
-    font-size: clamp(3.45rem, 9.6vw, 4.6rem);
   }
   .hero-description {
     max-width: 30rem;
@@ -753,8 +750,12 @@ body:has(.menu-dialog[open]) {
   }
 }
 @media (max-width: 27rem) {
-  .panel-header-overview .panel-breadcrumb > span {
+  .panel-breadcrumb > span {
     display: none;
+  }
+  .panel-header .demo-label {
+    white-space: normal;
+    text-align: center;
   }
 }
 @media (max-width: 24rem) {
@@ -778,23 +779,16 @@ body:has(.menu-dialog[open]) {
     padding-inline: 0.6rem;
     font-size: 0.82rem;
   }
-  .hero h1 {
-    font-size: clamp(2.8rem, 13vw, 3.4rem);
-  }
-  .panel-breadcrumb > span {
-    display: none;
-  }
 }
 @media (max-width: 21.5rem) {
   .hero-actions {
     grid-template-columns: 1fr;
   }
-  .panel-header .demo-label {
-    white-space: normal;
-    text-align: center;
-  }
 }
 @media (max-width: 19rem) {
+  .panel-header {
+    flex-wrap: wrap;
+  }
   .header-access > span {
     display: none;
   }

@@ -8,13 +8,22 @@ import { Icon } from '../../components/ui/Icon'
 import { StatusLabel } from '../../components/ui/StatusLabel'
 import { useDashboard } from '../../hooks/useDashboard'
 import { usePanelContext } from '../../hooks/usePanelContext'
+import { useProfile } from '../../hooks/useProfile'
 import { modules, panelHref } from '../../routes/routes'
+import { usingMocks } from '../../services/http'
 import type { ModuleId } from '../../types/panel'
+import { ClientsPage } from '../Clientes/ClientsPage'
+import { RequestsPage } from '../Solicitacoes/RequestsPage'
+import { BudgetsPage } from './BudgetsPage'
+import { HistoryPage } from './HistoryPage'
+import { OrdersPage } from './OrdersPage'
+import { SettingsPage } from './SettingsPage'
 import './dashboard.css'
 
 export function OverviewPage() {
   const { result, retry } = useDashboard()
   const indicatorsHeading = useRef<HTMLHeadingElement>(null)
+  const technical = useProfile()?.papel === 'tecnico'
 
   return (
     <>
@@ -24,7 +33,9 @@ export function OverviewPage() {
           Painel administrativo
         </p>
         <h1>Visão geral</h1>
-        <p>Acompanhe as solicitações, os serviços e as visitas do estabelecimento.</p>
+        <p>{technical ? 'Acompanhe as ordens de serviço atribuídas a você.'
+          : usingMocks ? 'Acompanhe os indicadores de solicitações, serviços e visitas do estabelecimento.'
+          : 'Acompanhe os atendimentos e as ordens de serviço do estabelecimento.'}</p>
       </div>
       <div className="dashboard-layout">
         <section aria-labelledby="dashboard-indicators-title">
@@ -44,15 +55,15 @@ export function OverviewPage() {
           )}
           {result.status === 'ready' && (
             <DashboardIndicators
-              total={result.data.requests.length}
-              pending={result.data.byStatus.pendente}
+              total={technical ? undefined : result.data.requests.length}
+              pending={technical ? undefined : result.data.byStatus.pendente}
               inProgress={result.data.inProgress}
               scheduled={result.data.scheduled}
               completed={result.data.completed}
             />
           )}
         </section>
-        {result.status === 'ready' && (
+        {result.status === 'ready' && !technical && (
           <>
             <DashboardCharts byStatus={result.data.byStatus} monthly={result.data.monthly} />
             <RecentRequests requests={result.data.requests} />
@@ -106,8 +117,19 @@ function PanelShortcuts() {
   )
 }
 
-export function ModulePage({ id }: { id: ModuleId }) {
+export function ModulePage({ id, requestId }: { id: ModuleId; requestId?: string }) {
+  if (id === 'clientes') return <ClientsPage />
+  if (id === 'solicitacoes') return <RequestsPage requestId={requestId} />
+
   const info = modules[id]
+  const livePage = !usingMocks && {
+    orcamentos: <BudgetsPage />,
+    servicos: <OrdersPage />,
+    historico: <HistoryPage />,
+    configuracoes: <SettingsPage />,
+    visitas: null,
+    estoque: null,
+  }[id]
   return (
     <>
       <div className="panel-intro">
@@ -118,15 +140,17 @@ export function ModulePage({ id }: { id: ModuleId }) {
         <h1>{info.title}</h1>
         <p>{info.description}</p>
       </div>
-      <section className="scope-card" aria-labelledby="escopo-titulo">
+      {livePage || <section className="scope-card" aria-labelledby="escopo-titulo">
         <div className="scope-heading">
           <span className="icon-tile">
             <Icon name={info.icon} size={25} />
           </span>
-          <StatusLabel proposal>Proposta</StatusLabel>
+          <StatusLabel proposal>{usingMocks ? 'Proposta' : 'Aguardando API'}</StatusLabel>
         </div>
         <h2 id="escopo-titulo">Escopo previsto</h2>
-        <p>Funcionalidades em discussão para as próximas etapas.</p>
+        <p>{usingMocks ? 'Funcionalidades em discussão para as próximas etapas.'
+          : id === 'visitas' ? 'A API ainda não disponibiliza agenda de visitas.'
+          : 'A API ainda não disponibiliza cadastro e movimentações de estoque.'}</p>
         <ul>
           {info.scope.map((item) => (
             <li key={item}>{item}</li>
@@ -135,7 +159,7 @@ export function ModulePage({ id }: { id: ModuleId }) {
         <a href={panelHref()} className="text-link">
           Voltar à visão geral
         </a>
-      </section>
+      </section>}
     </>
   )
 }

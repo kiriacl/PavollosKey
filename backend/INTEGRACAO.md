@@ -66,7 +66,7 @@ const response = await fetch("/api/auth/login", {
 
 O painel devolve o nome configurado em `PAVOLLOS_ESTABELECIMENTO`, com `PávollosKeys` como padrão. `atalhos` contém IDs do catálogo atual. Comercial recebe `clientes`, `solicitacoes`, `orcamentos`, `servicos` e `historico`. Técnico recebe `servicos` e `historico`. Os atalhos são navegação. Cada operação da API verifica as permissões no servidor e no banco.
 
-O serviço `frontend/src/services/panel.ts` já lê esse formato. Com `VITE_API_BASE_URL` vazia, ele usa dados fictícios. Com `/api`, a visão geral consulta o servidor e precisa de uma sessão ativa. O fluxo visual de login e a integração das páginas de negócio ficam a cargo do front-end.
+Com `VITE_API_BASE_URL` vazia, o painel usa a demonstração. Com `/api`, o front-end apresenta o login, carrega o perfil e usa os atalhos do servidor. As telas integradas e as diferenças entre os dois modos estão no [guia do front-end](../frontend/README.md).
 
 ## Clientes e atendimentos
 

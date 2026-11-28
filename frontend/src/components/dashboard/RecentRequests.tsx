@@ -1,10 +1,13 @@
 import { useRef } from 'react'
 import { useRecentRequests } from '../../hooks/useRecentRequests'
-import { requestStatuses, type DashboardRequest, type RequestStatus } from '../../types/dashboard'
+import { requestHref } from '../../routes/routes'
+import type { DashboardRequest } from '../../types/dashboard'
+import type { RequestStatus } from '../../types/request'
+import { usingMocks } from '../../services/http'
+import { formatCivilDate } from '../../utils/dates'
 import { Icon } from '../ui/Icon'
-import { requestStatusLabels } from './requestStatusLabels'
-
-const dateFormat = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeZone: 'UTC' })
+import { RequestStatusBadge } from '../requests/RequestStatusBadge'
+import { requestStatusLabels, visibleRequestStatuses } from '../requests/requestStatusLabels'
 
 export function RecentRequests({ requests }: { requests: DashboardRequest[] }) {
   const filters = useRecentRequests(requests)
@@ -40,7 +43,7 @@ export function RecentRequests({ requests }: { requests: DashboardRequest[] }) {
                 onChange={(event) => filters.changeStatus(event.target.value as RequestStatus | 'all')}
               >
                 <option value="all">Todos os status</option>
-                {requestStatuses.map((status) => (
+                {visibleRequestStatuses.map((status) => (
                   <option key={status} value={status}>{requestStatusLabels[status]}</option>
                 ))}
               </select>
@@ -65,30 +68,35 @@ export function RecentRequests({ requests }: { requests: DashboardRequest[] }) {
         <>
           <div className="request-columns request-column-headings" aria-hidden="true">
             <span>Cliente</span>
-            <span>Tipo de serviço</span>
+            <span>{usingMocks ? 'Tipo de serviço' : 'Descrição'}</span>
             <span>Data</span>
             <span>Origem</span>
             <span>Status</span>
+            <span>Ações</span>
           </div>
           <ul className="request-list" role="list">
             {filters.visibleRequests.map((request) => (
               <li key={request.id}>
                 <dl className="request-columns">
                   <div><dt>Cliente</dt><dd className="request-name">{request.cliente}</dd></div>
-                  <div><dt>Tipo de serviço</dt><dd>{request.tipoServico}</dd></div>
+                  <div><dt>{usingMocks ? 'Tipo de serviço' : 'Descrição'}</dt><dd>{request.descricao}</dd></div>
                   <div>
                     <dt>Data da solicitação</dt>
                     <dd>
-                      <time dateTime={request.dataSolicitacao}>{dateFormat.format(new Date(request.dataSolicitacao))}</time>
+                      <time dateTime={request.dataSolicitacao}>{formatCivilDate(request.dataSolicitacao)}</time>
                     </dd>
                   </div>
                   <div><dt>Origem</dt><dd>{request.origem}</dd></div>
                   <div>
                     <dt>Status</dt>
+                    <dd><RequestStatusBadge status={request.status} /></dd>
+                  </div>
+                  <div>
+                    <dt>Ações</dt>
                     <dd>
-                      <span className={`request-pill request-${request.status}`}>
-                        <i aria-hidden="true" />{requestStatusLabels[request.status]}
-                      </span>
+                      <a href={requestHref(request.id)} className="text-link" aria-label={`Visualizar ${request.id}`}>
+                        Visualizar
+                      </a>
                     </dd>
                   </div>
                 </dl>

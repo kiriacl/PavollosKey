@@ -1,11 +1,13 @@
 import { getDashboard } from '../services/dashboard'
 import type { MonthlyRequestCount, RequestCounts } from '../types/dashboard'
 import { useAsyncData } from './useAsyncData'
+import { useProfile } from './useProfile'
+import type { Role } from '../services/auth'
 
 const trendMonths = 6
 
-async function loadDashboard(signal: AbortSignal) {
-  const { solicitacoes, servicos, visitas } = await getDashboard(signal)
+async function loadDashboard(signal: AbortSignal, role?: Role) {
+  const { solicitacoes, servicos, visitas } = await getDashboard(signal, role)
   const requests = solicitacoes.toSorted((first, second) =>
     second.dataSolicitacao.localeCompare(first.dataSolicitacao),
   )
@@ -36,10 +38,13 @@ async function loadDashboard(signal: AbortSignal) {
     monthly,
     inProgress: servicos.filter((service) => service.status === 'em_andamento').length,
     completed: servicos.filter((service) => service.status === 'concluido').length,
-    scheduled: visitas.filter((visit) => visit.status === 'agendada').length,
+    scheduled: visitas?.filter((visit) => visit.status === 'agendada').length,
   }
 }
 
 export function useDashboard() {
-  return useAsyncData(loadDashboard)
+  const role = useProfile()?.papel
+  const load = useCallback((signal: AbortSignal) => loadDashboard(signal, role), [role])
+  return useAsyncData(load)
 }
+import { useCallback } from 'react'

@@ -1,5 +1,6 @@
-import { requestStatuses, type MonthlyRequestCount, type RequestCounts } from '../../types/dashboard'
-import { requestStatusLabels } from './requestStatusLabels'
+import type { MonthlyRequestCount, RequestCounts } from '../../types/dashboard'
+import { requestStatusLabels, visibleRequestStatuses } from '../requests/requestStatusLabels'
+import '../requests/request-status.css'
 
 const shortMonth = new Intl.DateTimeFormat('pt-BR', { month: 'short', timeZone: 'UTC' })
 const fullMonth = new Intl.DateTimeFormat('pt-BR', { month: 'long', year: 'numeric', timeZone: 'UTC' })
@@ -23,7 +24,7 @@ export function DashboardCharts({ byStatus, monthly }: DashboardChartsProps) {
           <p className="dashboard-note">Nenhuma solicitação para agrupar por status.</p>
         ) : (
           <ul className="status-chart" role="list">
-            {requestStatuses.map((status) => (
+            {visibleRequestStatuses.map((status) => (
               <li key={status} className={`request-${status}`}>
                 <span><i aria-hidden="true" />{requestStatusLabels[status]}</span>
                 <div className="status-chart-track" aria-hidden="true">
